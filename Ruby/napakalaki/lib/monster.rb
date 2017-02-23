@@ -2,6 +2,9 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
+require 'prize'
+require 'bad_consequence'
+
 class Monster
   def initialize(name, combatLevel, prize, badConsequence)
     @name = name

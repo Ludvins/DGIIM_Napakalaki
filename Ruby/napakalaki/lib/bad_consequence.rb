@@ -13,8 +13,26 @@ class BadConsequence
     @death = death
   end
   
+  private_class_method:new
   
+  def self.newLevelNumberOfTreasures(aText, someLevels, someVisibleTreasures, someHiddenTreasures)
+    
+    self.new(aText, someLevels, someVisibleTreasures, someHiddenTreasures, 0, 0 ,0)
+    
+  end 
   
+  def self.newLevelSpecificTreasures(aText, someLevels, someSpecificVisibleTreasures, someSpecificHiddenTreasures)
+  
+     self.new(aText, someLevels, 0, 0, someSpecificVisibleTreasures, someSpecificHiddenTreasures, 0)     
+  
+  end
+  
+  def self.newDeath(aText)
+    
+    self.new(aText, 0, 0, 0, 0, 0, 1)
+    
+  end
+
   def to_s
     "Text: #{aText} \nLevels lost: #{someLevels} \nVisible treasures lost: #{someVisibleTreasures} \nHidden treasures lost: #{someHiddenTreasures} \nSpecific visible treasures lost: #{someSpecificVisibleTreasures} \nSpecific hiden treasures lost: #{someSpecificHiddenTreasures} \nDeath: #{death}"
   end
