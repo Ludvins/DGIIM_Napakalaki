@@ -28,14 +28,15 @@ public class BadConsequence {
         
     }
     
-        public BadConsequence(String _text, boolean _death){
+    public BadConsequence(String _text, boolean _death){
         
         text = _text;
         death = _death;
         
     }
-        public BadConsequence(String _text, ArrayList<TreasureKind> _tVisible, ArrayList<TreasureKind> _tHidden){
-        
+    
+    public BadConsequence(String _text, ArrayList<TreasureKind> _tVisible, ArrayList<TreasureKind> _tHidden){
+
         text = _text;
         specificHiddenTreasures = _tVisible;
         specificVisibleTreasures = _tHidden;

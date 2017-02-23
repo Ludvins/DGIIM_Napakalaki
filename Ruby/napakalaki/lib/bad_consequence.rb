@@ -2,38 +2,46 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
+
+require_relative 'treasure_kind'
+
 class BadConsequence
-  def initialize(aText, someLevels, someVisibleTreasures, someHiddenTreasures, someSpecificVisibleTreasures, someSpecificHiddenTreasures, death)
+  
+  
+  attr_reader :aText, :nLevels, :nVisibleTreasures, :nHiddenTreasures, :death, :SpecificVisibleTreasures, :SpecificHiddenTreasures
+  
+  
+  def initialize(aText, nLevels = 0, nVisibleTreasures = 0, nHiddenTreasures = 0, specificVisibleTreasures = Array.new, specificHiddenTreasures = Array.new, death = false)
     @aText = aText
-    @someLevels = someLevels
-    @someVisibleTreasures = someVisibleTreasures
-    @someHiddenTreasures = someHiddenTreasures
-    @someSpecificVisibleTreasures = someSpecificVisibleTreasures
-    @someSpecificHiddenTreasures = someSpecificHiddenTreasures
+    @nLevels = nLevels
+    @nVisibleTreasures = nVisibleTreasures
+    @nHiddenTreasures = nHiddenTreasures
+    @specificVisibleTreasures = specificVisibleTreasures
+    @specificHiddenTreasures = specificHiddenTreasures
     @death = death
   end
   
   private_class_method:new
   
-  def self.newLevelNumberOfTreasures(aText, someLevels, someVisibleTreasures, someHiddenTreasures)
+  def self.newLevelNumberOfTreasures(aText, nLevels, nVisibleTreasures, nHiddenTreasures)
     
-    self.new(aText, someLevels, someVisibleTreasures, someHiddenTreasures, 0, 0 ,0)
+    self.new(aText, nLevels, nVisibleTreasures, nHiddenTreasures)
     
   end 
   
-  def self.newLevelSpecificTreasures(aText, someLevels, someSpecificVisibleTreasures, someSpecificHiddenTreasures)
+  def self.newLevelSpecificTreasures(aText, nLevels, nSpecificVisibleTreasures, nSpecificHiddenTreasures)
   
-     self.new(aText, someLevels, 0, 0, someSpecificVisibleTreasures, someSpecificHiddenTreasures, 0)     
+     self.new(aText, nLevels, 0, 0, nSpecificVisibleTreasures, nSpecificHiddenTreasures)     
   
   end
   
   def self.newDeath(aText)
     
-    self.new(aText, 0, 0, 0, 0, 0, 1)
+    self.new(aText, 0, 0, 0, Array.new, Array.new, true)
     
   end
 
   def to_s
-    "Text: #{aText} \nLevels lost: #{someLevels} \nVisible treasures lost: #{someVisibleTreasures} \nHidden treasures lost: #{someHiddenTreasures} \nSpecific visible treasures lost: #{someSpecificVisibleTreasures} \nSpecific hiden treasures lost: #{someSpecificHiddenTreasures} \nDeath: #{death}"
+    "Text: #{aText} \nLevels lost: #{nLevels} \nVisible treasures lost: #{nVisibleTreasures} \nHidden treasures lost: #{nHiddenTreasures} \nSpecific visible treasures lost: #{nSpecificVisibleTreasures} \nSpecific hiden treasures lost: #{nSpecificHiddenTreasures} \nDeath: #{death}"
   end
 end

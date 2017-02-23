@@ -11,10 +11,10 @@ package napakalaki;
  */
 public class Monster {
     
-    private String name;
-    private int combatLevel;
-    private Prize prize;
-    private BadConsequence badconsequence;
+    private final String name;
+    private final int combatLevel;
+    private final Prize prize;
+    private final BadConsequence badconsequence;
 
     public Monster(String name, int combatLevel, Prize prize, BadConsequence badconsequence) {
         this.name = name;

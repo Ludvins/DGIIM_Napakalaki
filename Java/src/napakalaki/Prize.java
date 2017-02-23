@@ -10,8 +10,8 @@ package napakalaki;
  * @author ludvins
  */
 public class Prize {
-    private int treasures;
-    private int levels;
+    private final int treasures;
+    private final int levels;
     
     
     public Prize (int _treasures, int _levels){
