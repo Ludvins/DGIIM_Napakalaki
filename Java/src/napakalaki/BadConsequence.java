@@ -76,5 +76,41 @@ public class BadConsequence {
         return "BadConsequence{" + "text=" + text + ", levels=" + levels + ", nVisibleTreasures=" + nVisibleTreasures + ", nHiddenTreasures=" + nHiddenTreasures + ", death=" + death + ", specificHiddenTreasures=" + specificHiddenTreasures + ", specificVisibleTreasures=" + specificVisibleTreasures + '}';
     }
         
+    
+    public boolean isEmpty () {
+       return this.levels == 0 && this.death == false && this.nHiddenTreasures == 0 && this.nVisibleTreasures == 0 && this.specificHiddenTreasures.isEmpty() && this.specificVisibleTreasures.isEmpty();            
+    }
+   
+    public void substractVisibleTreasure(Treasure t){
+        this.specificVisibleTreasures.remove(t.getType());
+    }
+    
+    public void substractHiddenTreasure(Treasure t){
+        this.specificHiddenTreasures.remove(t.getType());
+    }
+    
+    public BadConsequence adjustToFitTreasureLists(ArrayList<Treasure> v, ArrayList<Treasure> h){
+        
+        ArrayList<TreasureKind> tHidden = new ArrayList();
+        ArrayList<TreasureKind> tVisible = new ArrayList();
+        
+        for (Treasure t : v) {
+            
+            if(!tVisible.contains(t.getType())) tVisible.add(t.getType());
+            
+        }
+
+        for (Treasure t : h) {
+            
+            if(!tHidden.contains(t.getType())) tHidden.add(t.getType());
+        }
+
+        BadConsequence bs = new BadConsequence(this.text, tVisible, tHidden);
+        
+        return bs;     
+        
+        
+    }
+    
         
 }
