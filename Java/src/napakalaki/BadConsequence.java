@@ -1,8 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
 package napakalaki;
 import java.util.ArrayList;
 /**
@@ -35,9 +32,10 @@ public class BadConsequence {
         
     }
     
-    public BadConsequence(String _text, ArrayList<TreasureKind> _tVisible, ArrayList<TreasureKind> _tHidden){
+    public BadConsequence(String _text, int _levels, ArrayList<TreasureKind> _tVisible, ArrayList<TreasureKind> _tHidden){
 
         text = _text;
+        levels = _levels;
         specificHiddenTreasures = _tVisible;
         specificVisibleTreasures = _tHidden;
         
@@ -96,16 +94,17 @@ public class BadConsequence {
         
         for (Treasure t : v) {
             
-            if(!tVisible.contains(t.getType())) tVisible.add(t.getType());
+            if(!this.specificVisibleTreasures.contains(t.getType())) tVisible.add(t.getType());
             
         }
 
         for (Treasure t : h) {
             
-            if(!tHidden.contains(t.getType())) tHidden.add(t.getType());
+            if(!this.specificHiddenTreasures.contains(t.getType())) tHidden.add(t.getType());
         }
-
-        BadConsequence bs = new BadConsequence(this.text, tVisible, tHidden);
+       
+        
+        BadConsequence bs = new BadConsequence(this.text, this.levels, tVisible, tHidden);
         
         return bs;     
         
