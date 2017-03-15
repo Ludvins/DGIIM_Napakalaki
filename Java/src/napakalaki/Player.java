@@ -55,7 +55,9 @@ public class Player {
     
     private void decrementLevels(int l){
         
-        this.level -= l;
+        if(this.level <= l) this.level = 1;
+        else
+            this.level -= l;
     }
     
     private void setPendingBadconsequence (BadConsequence r){
@@ -104,20 +106,19 @@ public class Player {
     
     private boolean isTreasureKindInUse(TreasureKind type) {
         
-        boolean ret = false;
         
         for (Treasure t : this.visibleTreasures) {
 
             if (type == t.getType()) {
 
-                ret = true;
-                break;
+                return true;
+                
 
             }
 
         }
         
-        return ret;
+        return false;
     }
     
     private void dieIfNoTreasures() {

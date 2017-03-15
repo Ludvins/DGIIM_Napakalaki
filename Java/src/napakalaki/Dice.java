@@ -9,16 +9,18 @@ import java.util.Random;
  */
 public class Dice {
     
-    private static final Dice instance = null;
+    private static Dice instance = null;
     
     private Dice () { }
     
     public static Dice getInstance() {
+        if (instance == null)
+           instance = new Dice();
         return instance;
     }
     
     public int nextNumber(){
         Random rd = new Random();
-        return rd.nextInt() % 6;
+        return 1 + rd.nextInt() % 6;
     }
 }

@@ -2,8 +2,8 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-require 'prize'
-require 'bad_consequence'
+require 'prize.rb'
+require 'bad_consequence.rb'
 
 class Monster
     

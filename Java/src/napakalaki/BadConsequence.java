@@ -94,13 +94,13 @@ public class BadConsequence {
         
         for (Treasure t : v) {
             
-            if(!this.specificVisibleTreasures.contains(t.getType())) tVisible.add(t.getType());
+            if(this.specificVisibleTreasures.contains(t.getType())) tVisible.add(t.getType());
             
         }
 
         for (Treasure t : h) {
             
-            if(!this.specificHiddenTreasures.contains(t.getType())) tHidden.add(t.getType());
+            if(this.specificHiddenTreasures.contains(t.getType())) tHidden.add(t.getType());
         }
        
         
