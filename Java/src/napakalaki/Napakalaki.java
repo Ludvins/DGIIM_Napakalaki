@@ -15,7 +15,7 @@ public class Napakalaki {
     
     private static Napakalaki instance = null;
     private Monster currentMonster;
-    private CardDealer cardDealer = CardDealer.getInstance();
+    private final CardDealer cardDealer = CardDealer.getInstance();
     private Player currentPlayer;
     private ArrayList<Player> players; 
     

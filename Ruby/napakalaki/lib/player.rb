@@ -11,8 +11,7 @@ class Player
   
   attr_reader :name, :dead, :visibleTreasures, :hiddenTreasures
   
-  private :bringToLife, :getCombatLevel, :incrementLevels, :decrementLevels, :setPendingBC, :applyPrize, :applyBadConsequence, :canMakeTreasureVisible, :howmanyvisibleTreasures, :dieIfNoTreasures
-  
+ 
   
   def initialize(name)
     @name = name
@@ -241,5 +240,8 @@ class Player
   def setEnemy (enemy)
     @enemy = enemy
   end
+  
+  private :bringToLife, :getCombatLevel, :incrementLevels, :decrementLevels, :setPendingBC, :applyPrize, :applyBadConsequence, :canMakeTreasureVisible, :howmanyvisibleTreasures, :dieIfNoTreasures
+ 
   
 end

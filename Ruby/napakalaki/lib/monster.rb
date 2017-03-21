@@ -2,8 +2,8 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
-require 'prize.rb'
-require 'bad_consequence.rb'
+require_relative 'prize.rb'
+require_relative 'bad_consequence.rb'
 
 class Monster
     
@@ -18,6 +18,6 @@ class Monster
 
   
   def to_s
-    "Monster name: #{name} \nMonster level: #{combatLevel} \nPrize: #{prize} \nBadconsequence: #{badConsequence}"
+    "Monster name: #{@name} \nMonster level: #{@combatLevel} \nPrize: #{@prize} \nBadconsequence: #{@badConsequence}"
   end
 end

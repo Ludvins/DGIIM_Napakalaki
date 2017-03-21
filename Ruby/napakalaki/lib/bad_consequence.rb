@@ -8,7 +8,7 @@ require_relative 'treasure_kind.rb'
 class BadConsequence
   
   
-  attr_reader :aText, :nLevels, :nVisibleTreasures, :nHiddenTreasures, :death, :SpecificVisibleTreasures, :SpecificHiddenTreasures
+  attr_reader :aText, :nLevels, :nVisibleTreasures, :nHiddenTreasures, :death, :specificVisibleTreasures, :specificHiddenTreasures
   
   
   def initialize(aText, nLevels = 0, nVisibleTreasures = 0, nHiddenTreasures = 0, specificVisibleTreasures = Array.new, specificHiddenTreasures = Array.new, death = false)
@@ -25,24 +25,24 @@ class BadConsequence
   
   def self.newLevelNumberOfTreasures(aText, nLevels, nVisibleTreasures, nHiddenTreasures)
     
-    self.new(aText, nLevels, nVisibleTreasures, nHiddenTreasures)
+    new(aText, nLevels, nVisibleTreasures, nHiddenTreasures)
     
   end 
   
-  def self.newLevelSpecificTreasures(aText, nLevels, nSpecificVisibleTreasures, nSpecificHiddenTreasures)
+  def self.newLevelSpecificTreasures(aText, nLevels, specificVisibleTreasures, specificHiddenTreasures)
   
-     self.new(aText, nLevels, 0, 0, nSpecificVisibleTreasures, nSpecificHiddenTreasures)     
+     new(aText, nLevels, 0, 0, specificVisibleTreasures, specificHiddenTreasures)     
   
   end
   
   def self.newDeath(aText)
     
-    self.new(aText, 0, 0, 0, Array.new, Array.new, true)
+    new(aText, 0, 0, 0, Array.new, Array.new, true)
     
   end
 
   def to_s
-    "Text: #{aText} \nLevels lost: #{nLevels} \nVisible treasures lost: #{nVisibleTreasures} \nHidden treasures lost: #{nHiddenTreasures} \nSpecific visible treasures lost: #{nSpecificVisibleTreasures} \nSpecific hiden treasures lost: #{nSpecificHiddenTreasures} \nDeath: #{death}"
+    "Text: #{@aText} \nLevels lost: #{@nLevels} \nVisible treasures lost: #{@nVisibleTreasures} \nHidden treasures lost: #{@nHiddenTreasures} \nSpecific visible treasures lost: #{@specificVisibleTreasures} \nSpecific hiden treasures lost: #{@specificHiddenTreasures} \nDeath: #{@death}"
   end
   
   def empty?

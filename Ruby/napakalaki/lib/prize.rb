@@ -15,6 +15,6 @@ class Prize
 
   
   def to_s
-    "Earned Treasures: #{treasures} \nEarned Levels: #{levels}"
+    "Earned Treasures: #{@treasures} \nEarned Levels: #{@levels}"
   end
 end
