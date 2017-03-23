@@ -2,6 +2,8 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
+module NapakalakiGame
+
 require_relative 'prize.rb'
 require_relative 'bad_consequence.rb'
 
@@ -20,4 +22,5 @@ class Monster
   def to_s
     "Monster name: #{@name} \nMonster level: #{@combatLevel} \nPrize: #{@prize} \nBadconsequence: #{@badConsequence}"
   end
+end
 end

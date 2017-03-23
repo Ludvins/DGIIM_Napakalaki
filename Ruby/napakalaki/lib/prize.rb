@@ -2,6 +2,8 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
+module NapakalakiGame
+
 class Prize
       
   attr_reader :treasures, :levels
@@ -17,4 +19,5 @@ class Prize
   def to_s
     "Earned Treasures: #{@treasures} \nEarned Levels: #{@levels}"
   end
+end
 end

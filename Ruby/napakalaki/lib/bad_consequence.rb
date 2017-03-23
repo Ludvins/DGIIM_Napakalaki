@@ -2,6 +2,7 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
+module NapakalakiGame
 
 require_relative 'treasure_kind.rb'
 
@@ -78,5 +79,5 @@ class BadConsequence
     
   end
   
-  
+end
 end

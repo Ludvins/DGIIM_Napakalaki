@@ -2,6 +2,8 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
+module NapakalakiGame
+
 require_relative 'bad_consequence.rb'
 require_relative 'prize.rb'
 require_relative 'monster.rb'
@@ -244,4 +246,5 @@ class Player
   private :bringToLife, :getCombatLevel, :incrementLevels, :decrementLevels, :setPendingBC, :applyPrize, :applyBadConsequence, :canMakeTreasureVisible, :howmanyvisibleTreasures, :dieIfNoTreasures
  
   
+end
 end

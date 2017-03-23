@@ -2,14 +2,26 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
+module NapakalakiGame
+
 require "singleton"
 require_relative "treasure.rb"
+require_relative "monster.rb"
+require_relative "prize.rb"
+require_relative "bad_consequence.rb"
 
 class CardDealer
   
   include Singleton
-  
+    
   attr_reader :usedMonsters, :unusedMonsters, :usedTreasures, :unusedTreasures
+  
+  def initialize
+    @usedMonsters = Array.new
+    @unusedMonsters = Array.new
+    @usedTreasures = Array.new
+    @unusedTreasures = Array.new
+  end
   
   def initTreasureDeck
     
@@ -144,7 +156,7 @@ class CardDealer
     
     #Bicéfalo
     p18 = Prize.new(2, 1)
-    bc18 = BadConsequence.newLevelNumberOfTreasures('Te faltan manos para tanta cabeza. Pierdes 3 niveles y tus tesoros visibles de las manos.', 3, [TreasureKind::ONEHAND,TreasureKind::ONEHAND,TreasureKind::BOTHHANDS], 0)
+    bc18 = BadConsequence.newLevelSpecificTreasures('Te faltan manos para tanta cabeza. Pierdes 3 niveles y tus tesoros visibles de las manos.', 3, [TreasureKind::ONEHAND,TreasureKind::ONEHAND,TreasureKind::BOTHHANDS], 0)
     @unusedMonsters << Monster.new('Bicefalo', 21, p18, bc18)
   end
   
@@ -235,4 +247,6 @@ class CardDealer
     
   end
   
+end
+
 end

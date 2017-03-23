@@ -2,10 +2,13 @@
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
 
+module NapakalakiGame
+
 module CombatResult
   
     WIN =:win
     LOSE =:lose
     WINGAME =:wingame
     
+end
 end

@@ -13,9 +13,8 @@ class Test
   end
   
   def self.testClase 
-    puts "entra funcion de clase"
     p18 = Prize.new(2, 1)
-    bc18 = BadConsequence.newLevelNumberOfTreasures('Te faltan manos para tanta cabeza. Pierdes 3 niveles y tus tesoros visibles de las manos.', 3, [TreasureKind::ONEHAND,TreasureKind::ONEHAND,TreasureKind::BOTHHANDS], 0)
+    bc18 = BadConsequence.newLevelSpecificTreasures('Te faltan manos para tanta cabeza. Pierdes 3 niveles y tus tesoros visibles de las manos.', 3, [TreasureKind::ONEHAND,TreasureKind::ONEHAND,TreasureKind::BOTHHANDS], 0)
     m = Monster.new('Bicefalo', 21, p18, bc18)
     
     puts m
@@ -23,7 +22,6 @@ class Test
   
 
   def testInstancia
-    puts "Entra funcion de instancia"
     p17 = Prize.new(2, 1)
     bc17 = BadConsequence.newLevelNumberOfTreasures('Menudo susto te llevas. Pierdes 2 niveles y 5 tesoros visibles.', 2, 5, 0)
     m = Monster.new('Tongue', 19, p17, bc17)
