@@ -8,13 +8,13 @@ require_relative 'bad_consequence.rb'
 require_relative 'prize.rb'
 require_relative 'monster.rb'
 require_relative 'treasure.rb'
+require_relative 'player.rb'
 require "singleton"
 
 class Napakalaki
   
   include Singleton
   
-  attr_accessor :currentPlayer, :players, :dealer, :currentMonster
   private :initPlayers, :nextPlayer, :nextTurnAllowed, :setEnemies
   
   def initPlayers(names)
@@ -26,11 +26,23 @@ class Napakalaki
   end
   
   def nextPlayer
-    if @currentPlayer == @players[@players.size] then
-      @currentPlayer = @players[0]
-    else
-      @currentPlayer = @players[@players.rindex(@currentPlayer) + 1]
+    
+    if @currentPlayer == nill
+      @currentPlayer = @players[rand(@players.size)]
+    else 
+      
+      if @players.index(@currentPlayer) == @players.size
+        
+        @currentPlayer = @players[0]
+      else
+        
+        @currentPlayer = @players[@players.index(@currentPlayer) + 1]
+      end
+      
     end
+    
+    
+    
   end
   
   def nextTurnAllowed
@@ -46,12 +58,20 @@ class Napakalaki
   
   def setEnemies
     
-    loop do
-    r = rand(@players.size)
+    for i in 0..@players.size - 1
     
-    break if @currentPlayer != @players[r]
+      loop do
+    
+        r = rand(@players.size)
+    
+   
+        break if @players[i] != @players[r]
+    
+      end
+    
+      @players[i].setEnemy(@players[r])
+    
     end
-    @currentPlayer.setEnemy(@players[r])
   end
   
   def developCombat
@@ -86,15 +106,26 @@ class Napakalaki
     
     initPlayers(names)
     
+    setEnemies
+    
     @dealer = CardDealer.instance
     
     nextTurn
     
   end
   
+  def getCurrentPlayer
+    @currentPlayer
+  end
+  
+  def getCurrentMonster
+    @currentMonster
+  end
+  
   def nextTurn
     
     ret = nextTurnAllowed
+    
      if ret then
        @currentMonster = @dealer.nextMonster
        nextPlayer

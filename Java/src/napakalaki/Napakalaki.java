@@ -41,14 +41,22 @@ public class Napakalaki {
     private void nextPlayer(){
         
         if(this.currentPlayer == null){
-            this.currentPlayer = players.get(0);
+            
+            Random rd = new Random();
+           
+            this.currentPlayer = players.get(rd.nextInt() % this.players.size());
         }
         else {
-            this.currentPlayer = this.players.get(this.players.indexOf(this.currentPlayer) + 1);
+            
+            if (this.players.indexOf(this.currentPlayer)== this.players.size())
+                this.currentPlayer = this.players.get(0);
+            
+            else 
+                this.currentPlayer = this.players.get(this.players.indexOf(this.currentPlayer) + 1 );
         }
     }
     
-    private boolean nextTurnAllowed(){
+    private boolean nextTurnIsAllowed(){
         
         boolean ret;
         
@@ -65,15 +73,17 @@ public class Napakalaki {
         Random rd = new Random();
         int n;
         
-        do {
+        for (int i = 0; i < this.players.size(); i++){
+     
+            do {
             
-            n = rd.nextInt() % this.players.size();
+                n = rd.nextInt() % this.players.size();
         
+            }
+            while(n == i); 
+            
+            players.get(i).setEnemy(this.players.get(n));
         }
-        while(n == this.players.indexOf(this.currentPlayer)); 
-            
-        this.currentPlayer.setEnemy(this.players.get(n));
-        
     }
     
     public CombatResult developCombat(){
@@ -116,6 +126,8 @@ public class Napakalaki {
         
         this.initPlayers(names);
         
+        this.setEnemies();
+        
         this.cardDealer.initCards();
         
         this.nextTurn();
@@ -134,16 +146,14 @@ public class Napakalaki {
     
     public boolean nextTurn(){
         
-        boolean ret = this.nextTurnAllowed();
+        boolean ret = this.nextTurnIsAllowed();
         
         if(ret){
             
             this.currentMonster = this.cardDealer.nextMonster();
             this.nextPlayer();
-            
-            boolean dead = this.currentPlayer.isDead();
-            
-            if (dead) this.currentPlayer.initTreasures();
+                     
+            if (this.currentPlayer.isDead()) this.currentPlayer.initTreasures();
             
         }
         

@@ -87,9 +87,22 @@ public class Player {
     
     private boolean canMakeTreasureVisible(Treasure t){
         
-        if (t.getType() != TreasureKind.ONEHAND && !this.isTreasureKindInUse(t.getType())) return true;
+        if (t.getType() != TreasureKind.ONEHAND && t.getType() != TreasureKind.BOTHHANDS && !this.isTreasureKindInUse(t.getType())) return true;
         
-        return t.getType() == TreasureKind.ONEHAND && this.howManyVisibleTreasures(TreasureKind.ONEHAND) < 2;
+        if (t.getType() == TreasureKind.ONEHAND && !this.isTreasureKindInUse(TreasureKind.BOTHHANDS)  && this.howManyVisibleTreasures(TreasureKind.ONEHAND) < 2) return true;
+    
+        if (t.getType() == TreasureKind.BOTHHANDS && !this.isTreasureKindInUse(TreasureKind.BOTHHANDS)  && this.howManyVisibleTreasures(TreasureKind.ONEHAND) == 0) return true;
+    
+        return false;
+    
+    }
+    
+    private Treasure giveMeATreasure(){
+        
+        Random rd = new Random();
+        int index = rd.nextInt() % this.hiddenTreasures.size();
+        
+        return this.hiddenTreasures.remove(index);
     }
     
     private int howManyVisibleTreasures(TreasureKind tk){
@@ -245,14 +258,36 @@ public class Player {
     
     public Treasure stealTreasure(){
         
-        Random rd = new Random();
-        int number = rd.nextInt() % this.hiddenTreasures.size();
+        if(!this.canISteal) return null;
+       
+        if(!this.enemy.canYouGiveMeATreasure()) return null;
         
-        Treasure t = this.hiddenTreasures.get(number);
-        this.hiddenTreasures.remove(number);
+        Treasure t = this.enemy.giveMeATreasure();
+        this.hiddenTreasures.add(t);
+        
+        this.haveStolen();
+        
         return t;
-        
     }   
+    
+    private boolean canYouGiveMeATreasure(){
+        return this.hiddenTreasures.isEmpty();
+    }
+    
+    public void haveStolen(){
+        this.canISteal = false;
+    }
+    
+    public void discardAllTreasures(){
+        
+        for(Treasure t : this.visibleTreasures){
+            this.discardVisibleTreasure(t);
+        }
+        
+        for(Treasure t : this.hiddenTreasures){
+            this.discardHiddenTreasure(t);
+        }
+    }
     
     public void setEnemy (Player enemy){
         

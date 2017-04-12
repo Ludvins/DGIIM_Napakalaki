@@ -11,10 +11,6 @@ require_relative 'treasure.rb'
 
 class Player
   
-  attr_reader :name, :dead, :visibleTreasures, :hiddenTreasures
-  
- 
-  
   def initialize(name)
     @name = name
   end
@@ -23,6 +19,22 @@ class Player
     
     @death = false
     
+  end
+  
+  def getName
+    @name
+  end
+  
+  def getDead
+    @dead
+  end
+  
+  def getVisibleTreasures
+    @visibleTreasures
+  end
+  
+  def getHiddenTreasures
+    @hiddenTreasures
   end
   
   def getCombatLevel
@@ -88,14 +100,40 @@ class Player
   
   def canMakeTreasurevisible(t)
     
-    if(t.type != TreasureKind.ONEHAND && !isTreasureKindInUse(t.type)) 
-      then
+    if(t.type != TreasureKind.ONEHAND && t.type != TreasureKind.BOTHHANDS && !isTreasureKindInUse(t.type)) 
       return true
     end
     
-    t.type == TreasureKind.ONEHAND && howManyVisibleTreasures(TreasureKind.ONEHAND) < 2
+    if t.type == TreasureKind.ONEHAND && !isTreasureKindInUse(TreasureKind.BOTHHANDS) && howManyVisibleTreasures(t.type) < 2
+      return true
+    end
     
+    if t.type == TreasureKind.BOTHHANDS && !isTreasureKindInUse(t.type) && howManyVisibleTreasures(TreasureKind.ONEHAND) == 0
+      return true
+    end
+    
+    return false
   end
+  
+  def canYouGiveMeATreasure
+    @hiddenTreasures.empty?
+  end
+  
+  def haveStolen
+    @canISteal = false
+  end
+  
+  def discardAllTreasures
+    
+    @visibleTreasures.each do |t|
+      discardVisibleTreasure(t)
+    end
+    
+    @hiddenTreasures.each do |t|
+      discardHiddenTreasure(t)
+    end
+  end
+  
   
   def howManyVisibleTreasures(tk)
     
@@ -200,6 +238,31 @@ class Player
     
     pendingBC != nil && @hiddenTreasures.length <= 4
     
+  end
+  
+  def stealTreasure
+    
+    if !@canISteal 
+      return nill
+    end
+    
+    if !@enemy.canYougiveMeATreasure
+      return nill
+    end
+    
+    t = @enemy.giveMeATreasure
+    @hiddenTreasure << t
+    
+    haveStolen
+    
+   return t
+  end
+  
+  def giveMeATreasure
+    
+    t = @hiddenTreasures[rand(@hiddenTreasures.size)]
+    @hiddenTreasures.delete(t)
+    return t
   end
   
   def initTreasures
