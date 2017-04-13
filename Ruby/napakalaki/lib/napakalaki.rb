@@ -9,13 +9,14 @@ require_relative 'prize.rb'
 require_relative 'monster.rb'
 require_relative 'treasure.rb'
 require_relative 'player.rb'
+require_relative 'card_dealer.rb'
 require "singleton"
 
 class Napakalaki
   
   include Singleton
   
-  private :initPlayers, :nextPlayer, :nextTurnAllowed, :setEnemies
+  private
   
   def initPlayers(names)
     @players = Array.new
@@ -27,13 +28,14 @@ class Napakalaki
   
   def nextPlayer
     
-    if @currentPlayer == nill
+    if @currentPlayer == nil
       @currentPlayer = @players[rand(@players.size)]
     else 
       
-      if @players.index(@currentPlayer) == @players.size
+      if @players.index(@currentPlayer) == @players.size - 1
         
         @currentPlayer = @players[0]
+        
       else
         
         @currentPlayer = @players[@players.index(@currentPlayer) + 1]
@@ -48,7 +50,7 @@ class Napakalaki
   def nextTurnAllowed
     
     if @currentPlayer == nil
-      ret = false
+      ret = true
     else
       ret = @currentPlayer.validState
     end
@@ -58,10 +60,12 @@ class Napakalaki
   
   def setEnemies
     
+    r = Random.new
+    
     for i in 0..@players.size - 1
     
       loop do
-    
+            
         r = rand(@players.size)
     
    
@@ -73,6 +77,8 @@ class Napakalaki
     
     end
   end
+  
+  public
   
   def developCombat
     @currentPlayer.combat(@currentMonster)
@@ -104,12 +110,14 @@ class Napakalaki
   
   def initGame(names)
     
+    @dealer = CardDealer.instance
+    
+    @dealer.initCards
+    
     initPlayers(names)
     
     setEnemies
-    
-    @dealer = CardDealer.instance
-    
+   
     nextTurn
     
   end

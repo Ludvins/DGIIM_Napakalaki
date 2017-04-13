@@ -8,11 +8,19 @@ require_relative 'bad_consequence.rb'
 require_relative 'prize.rb'
 require_relative 'monster.rb'
 require_relative 'treasure.rb'
+require_relative 'combat_result.rb'
+require_relative 'card_dealer.rb'
+require_relative 'dice.rb'
 
 class Player
   
   def initialize(name)
     @name = name
+    @visibleTreasures = Array.new
+    @hiddenTreasures = Array.new
+    @death = true
+    @level = 1    
+    initTreasures
   end
   
   def bringToLife
@@ -25,7 +33,7 @@ class Player
     @name
   end
   
-  def getDead
+  def isDead
     @dead
   end
   
@@ -76,9 +84,9 @@ class Player
   
   def applyPrize(m)
     
-    incrementLevels(m.prize.levels)
+    incrementLevels(m.getPrize.levels)
     
-    n = m.prize.treasures
+    n = m.getPrize.treasures
     
     cd = CardDealer.instance
     
@@ -92,23 +100,23 @@ class Player
   
   def applyBadConsequence(m)
     
-    decrementlevels(m.getBadConsequence.nLevels)
+    decrementLevels(m.getBadConsequence.nLevels)
     
-    setPendingBC(m.setBadConsequence.adjustToFitTreasureList(@visibleTreasures, @hiddenTreasures))
+    setPendingBC(m.getBadConsequence.adjustToFitTreasureList(@visibleTreasures, @hiddenTreasures))
     
   end
   
-  def canMakeTreasurevisible(t)
+  def canMakeTreasureVisible(t)
     
-    if(t.type != TreasureKind.ONEHAND && t.type != TreasureKind.BOTHHANDS && !isTreasureKindInUse(t.type)) 
+    if(t.type != TreasureKind::ONEHAND && t.type != TreasureKind::BOTHHANDS && !isTreasureKindInUse(t.type)) 
       return true
     end
     
-    if t.type == TreasureKind.ONEHAND && !isTreasureKindInUse(TreasureKind.BOTHHANDS) && howManyVisibleTreasures(t.type) < 2
+    if t.type == TreasureKind::ONEHAND && !isTreasureKindInUse(TreasureKind::BOTHHANDS) && howManyVisibleTreasures(t.type) < 2
       return true
     end
     
-    if t.type == TreasureKind.BOTHHANDS && !isTreasureKindInUse(t.type) && howManyVisibleTreasures(TreasureKind.ONEHAND) == 0
+    if t.type == TreasureKind::BOTHHANDS && !isTreasureKindInUse(t.type) && howManyVisibleTreasures(TreasureKind::ONEHAND) == 0
       return true
     end
     
@@ -121,6 +129,10 @@ class Player
   
   def haveStolen
     @canISteal = false
+  end
+  
+  def canISteal
+    @canISteal
   end
   
   def discardAllTreasures
@@ -152,7 +164,7 @@ class Player
   end
   
   
-  def isTreasurekindInUse(type)
+  def isTreasureKindInUse(type)
     
    
     @visibleTreasures.each do |t|
@@ -172,7 +184,7 @@ class Player
     
     if @visibleTreasures.empty? && @hiddenTreasures.empty?
       then 
-      @dead = true
+      @death = true
     end
   end
   
@@ -182,16 +194,16 @@ class Player
       
       applyBadConsequence(m)
       
-      return CombatResult.LOSE
+      return CombatResult::LOSE
     end
     
     applyPrize(m)
     
     if @level >= 10 
-      return CombatResult.WINGAME
+      return CombatResult::WINGAME
     end
     
-    return CombatResult.WIN
+    return CombatResult::WIN
     
   end
   
@@ -236,7 +248,19 @@ class Player
   
   def validState
     
-    pendingBC != nil && @hiddenTreasures.length <= 4
+    if @hiddenTreasures.length <= 4 then
+      
+      if @pendingBC.nil? then
+        return true
+      end
+      
+      if @pendingBC.empty? then
+        return true
+      end
+      
+    end
+      
+    return false
     
   end
   
@@ -267,8 +291,8 @@ class Player
   
   def initTreasures
     
-    dealer = CardDealer.getInstance
-    dice = Dice.getInstance
+    dealer = CardDealer.instance
+    dice = Dice.instance
     
     bringToLife
     
@@ -279,34 +303,28 @@ class Player
     
     if n == 6 then
       treasure = dealer.nextTreasure
-      @hiddenTreasures << treasures
+      @hiddenTreasures << treasure
       treasure = dealer.nextTreasure
-      @hiddenTreasures << treasures
+      @hiddenTreasures << treasure
       
     elsif n > 1 then
       
       treasure = dealer.nextTreasure
-      @hiddenTreasures << treasures
+      @hiddenTreasures << treasure
       
     end
 
-  end
-  
-  def stealTreasure
-    
-    n = rand(@hiddenTreasures.length)
-    
-    t = @hiddenTreasures[n]
-    @hiddenTreasures.delete(t)
-    return t
-    
   end
   
   def setEnemy (enemy)
     @enemy = enemy
   end
   
-  private :bringToLife, :getCombatLevel, :incrementLevels, :decrementLevels, :setPendingBC, :applyPrize, :applyBadConsequence, :canMakeTreasureVisible, :howmanyvisibleTreasures, :dieIfNoTreasures
+  def to_s
+    "#{@name}"
+  end
+  
+  private :bringToLife, :getCombatLevel, :incrementLevels, :decrementLevels, :setPendingBC, :applyPrize, :applyBadConsequence, :canMakeTreasureVisible, :howManyVisibleTreasures, :dieIfNoTreasures
  
   
 end

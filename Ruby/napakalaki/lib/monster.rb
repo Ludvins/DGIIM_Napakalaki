@@ -8,8 +8,6 @@ require_relative 'prize.rb'
 require_relative 'bad_consequence.rb'
 
 class Monster
-    
-  attr_reader :name, :combatLevel, :prize, :badConsequence
   
   def initialize(name, combatLevel, prize, badConsequence)
     @name = name
@@ -18,6 +16,21 @@ class Monster
     @badConsequence = badConsequence
   end
 
+  def getName
+    @name
+  end
+  
+  def getCombatLevel
+    @combatLevel
+  end
+  
+  def getPrize
+    @prize
+  end
+  
+  def getBadConsequence
+    @badConsequence
+  end
   
   def to_s
     "Monster name: #{@name} \nMonster level: #{@combatLevel} \nPrize: #{@prize} \nBadconsequence: #{@badConsequence}"

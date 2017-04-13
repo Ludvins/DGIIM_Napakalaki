@@ -14,6 +14,10 @@ class Treasure
     
   end
   
+  def to_s
+    "Name: #{@name} \nLevel Bonus: #{@bonus} \nType: #{@type}"
+  end
+  
   attr_reader :name, :bonus, :type
 end
 end

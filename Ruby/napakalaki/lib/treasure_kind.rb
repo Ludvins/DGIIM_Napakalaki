@@ -6,11 +6,11 @@ module NapakalakiGame
 
 module TreasureKind
   
-    ARMOR =:armor
-    ONEHAND =:onehand
-    BOTHHANDS =:bothhands 
-    HELMET =:helmet
-    SHOES =:shoes
+    ARMOR =:Armor
+    ONEHAND =:Onehand
+    BOTHHANDS =:Bothhands
+    HELMET =:Helmet
+    SHOES =:Shoes
     
 end
 end

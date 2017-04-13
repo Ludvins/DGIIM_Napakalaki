@@ -6,9 +6,9 @@ module NapakalakiGame
 
 module CombatResult
   
-    WIN =:win
-    LOSE =:lose
-    WINGAME =:wingame
+    WIN =:WIN
+    LOSE =:LOSE
+    WINGAME =:WINGAME
     
 end
 end

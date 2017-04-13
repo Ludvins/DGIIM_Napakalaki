@@ -43,11 +43,11 @@ class BadConsequence
   end
 
   def to_s
-    "Text: #{@aText} \nLevels lost: #{@nLevels} \nVisible treasures lost: #{@nVisibleTreasures} \nHidden treasures lost: #{@nHiddenTreasures} \nSpecific visible treasures lost: #{@specificVisibleTreasures} \nSpecific hiden treasures lost: #{@specificHiddenTreasures} \nDeath: #{@death}"
+    "Text: #{@aText} \nLevels lost: #{@nLevels} \nVisible treasures lost: #{@nVisibleTreasures} \nHidden treasures lost: #{@nHiddenTreasures} \nSpecific visible treasures lost: #{@specificVisibleTreasures} \nSpecific hidden treasures lost: #{@specificHiddenTreasures} \nDeath: #{@death}"
   end
   
   def empty?
-    @nLevels = 0 && @nVisibleTreasures = 0 && @nHiddenTreasures = 0 && @specificVisibleTreasures.empty? && @spedificHiddenTreasures.empty? && @death = false
+    @nLevels = 0 && @nVisibleTreasures = 0 && @nHiddenTreasures = 0 && @specificVisibleTreasures.empty? && @specificHiddenTreasures.empty? && @death = false
   end
   
   def substractVisibleTreasure(t)
@@ -58,7 +58,7 @@ class BadConsequence
     @specificHiddenTreasures.delete(t.type)
   end
   
-  def adjustToFitTreasureLists(vTreasures, hTreasures)
+  def adjustToFitTreasureList(vTreasures, hTreasures)
     
     return @self if @death == true
     
@@ -72,7 +72,7 @@ class BadConsequence
       nhidden = @nHiddenTreasures
     end
     
-    if @nVisibleTreasures < nVisible
+    if @nVisibleTreasures < nvisible
       nvisible = @nvisibleTreasures
     end
     
@@ -84,7 +84,7 @@ class BadConsequence
     
     hTreasures.each do |h|
       if @specificHiddenTreasures.include?(h.type) 
-        then hVisible << h.type
+        then tVisible << h.type
       end
     end
     
