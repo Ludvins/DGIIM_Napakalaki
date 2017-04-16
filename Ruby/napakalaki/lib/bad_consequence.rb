@@ -38,7 +38,7 @@ class BadConsequence
   
   def self.newDeath(aText)
     
-    new(aText, 0, 0, 0, Array.new, Array.new, true)
+    new(aText, 10, 5, 4, Array.new, Array.new, true)
     
   end
 
@@ -58,43 +58,42 @@ class BadConsequence
     @specificHiddenTreasures.delete(t.type)
   end
   
+  def intersection(array1, array2)
+    
+   (array1 & array2).flat_map { |a| [a]*[array1.count(a),array2.count(a)].min }
+            
+  end
+  
   def adjustToFitTreasureList(vTreasures, hTreasures)
     
     return @self if @death == true
     
-    tVisible = Array.new
-    tHidden = Array.new
-    
-    nvisible = vTreasures.size
-    nhidden = hTreasures.size
-    
-    if @nHiddenTreasures < nhidden
-      nhidden = @nHiddenTreasures
-    end
-    
-    if @nVisibleTreasures < nvisible
-      nvisible = @nvisibleTreasures
-    end
-    
-    vTreasures.each do |v|
-      if @specificVisibleTreasures.include?(v.type) 
-        then tVisible << v.type
-      end
-    end
-    
-    hTreasures.each do |h|
-      if @specificHiddenTreasures.include?(h.type) 
-        then tVisible << h.type
-      end
-    end
-    
-    if tVisible.empty? && tHidden.empty?
-     
-      return BadConsequence.newLevelNumberOfTreasures(@aText, @nLevels, nvisible, nhidden)
+    if @specificVisibleTreasures.empty? && @specificHiddenTreasures.empty? then
+        
+      nvisible = [vTreasures.size, @nVisibleTreasures].min
+      nhidden = [hTreasures.size, @nHiddenTreasures].min
+      
+      puts nvisible
+      puts nhidden
+                    
+      return BadConsequence.newLevelNumberOfTreasures(@aText, 0, nvisible, nhidden)
       
     end
     
-    return BadConsequence.newLevelSpecificTreasures(@aText, @nLevels, tVisible, tHidden)
+    vTreasures = vTreasures.collect{ |a| a.type}
+    hTreasures = hTreasures.collect{ |a| a.type}
+    
+    tVisible = intersection(vTreasures, @specificVisibleTreasures)
+    tHidden = intersection(hTreasures, @specificHiddenTreasures)
+    
+    puts vTreasures
+    puts @specificVisibleTreasures
+    puts tVisible
+    puts hTreasures
+    puts @specificHiddenTreasures
+    puts tHidden
+    
+    return BadConsequence.newLevelSpecificTreasures(@aText, 0, tVisible, tHidden)
     
   end
   

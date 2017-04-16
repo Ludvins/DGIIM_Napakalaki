@@ -155,7 +155,7 @@ class CardDealer
     
     #Bicéfalo
     p18 = Prize.new(2, 1)
-    bc18 = BadConsequence.newLevelSpecificTreasures('Te faltan manos para tanta cabeza. Pierdes 3 niveles y tus tesoros visibles de las manos.', 3, [TreasureKind::ONEHAND,TreasureKind::ONEHAND,TreasureKind::BOTHHANDS], 0)
+    bc18 = BadConsequence.newLevelSpecificTreasures('Te faltan manos para tanta cabeza. Pierdes 3 niveles y tus tesoros visibles de las manos.', 3, [TreasureKind::ONEHAND,TreasureKind::ONEHAND,TreasureKind::BOTHHANDS], [])
     @unusedMonsters << Monster.new('Bicefalo', 21, p18, bc18)
   end
   

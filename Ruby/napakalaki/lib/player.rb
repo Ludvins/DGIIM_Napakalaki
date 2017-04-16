@@ -190,7 +190,9 @@ class Player
   
   def combat (m)
     
-    if getCombatLevel <= m.getCombatLevel then
+    level = haveStolen ? m.getCombatLevel+@enemy.getCombatLevel : m.getCombatLevel
+    
+    if getCombatLevel <= level then
       
       applyBadConsequence(m)
       
@@ -220,7 +222,7 @@ class Player
   
   def discardVisibleTreasure(t)
     
-    @visibleTreasures.remove(t)
+    @visibleTreasures -= [t]
     
     if @pendingBC != nil && @pendingBC.empty? then
       
@@ -232,9 +234,9 @@ class Player
     
   end
 
-  def hiddenVisibleTreasure(t)
+  def discardHiddenTreasure(t)
     
-    @hiddenTreasures.remove(t)
+    @hiddenTreasures -= [t]
     
     if @pendingBC != nil && @pendingBC.empty? then
       
@@ -249,17 +251,14 @@ class Player
   def validState
     
     if @hiddenTreasures.length <= 4 then
-      
-      if @pendingBC.nil? then
-        return true
-      end
-      
-      if @pendingBC.empty? then
+           
+      unless !@pendingBC.nil? || !@pending.empty?
         return true
       end
       
     end
-      
+    
+    puts @pendingBC
     return false
     
   end
