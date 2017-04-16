@@ -252,7 +252,7 @@ class Player
     
     if @hiddenTreasures.length <= 4 then
            
-      unless !@pendingBC.nil? || !@pending.empty?
+      unless !@pendingBC.nil? || !@pendingBC.empty?
         return true
       end
       
@@ -265,11 +265,11 @@ class Player
   
   def stealTreasure
     
-    if !@canISteal 
+    unless @canISteal 
       return nill
     end
     
-    if !@enemy.canYougiveMeATreasure
+    unless @enemy.canYouGiveMeATreasure
       return nill
     end
     
