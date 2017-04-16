@@ -324,7 +324,7 @@ class Player
   end
   
   private :bringToLife, :getCombatLevel, :incrementLevels, :decrementLevels, :setPendingBC, :applyPrize, :applyBadConsequence, :canMakeTreasureVisible, :howManyVisibleTreasures, :dieIfNoTreasures
- 
+  protected :giveMeATreasure, :canYouGiveMeATreasure
   
 end
 end
