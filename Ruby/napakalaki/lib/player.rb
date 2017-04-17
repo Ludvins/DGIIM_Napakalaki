@@ -20,7 +20,8 @@ class Player
     @hiddenTreasures = Array.new
     @death = true
     @level = 1    
-    initTreasures
+    @canISteal = true;
+    
   end
   
   def bringToLife
@@ -34,7 +35,7 @@ class Player
   end
   
   def isDead
-    @dead
+    @death
   end
   
   def getVisibleTreasures
@@ -67,13 +68,9 @@ class Player
   
   def decrementLevels(n)
     
-    if (@level <= n)
-      then @level = 1
-    else
-      @level -= n
-    end
-   
-   end
+    @level = @level <= n ? 1 : @level - n
+    
+  end
    
   def setPendingBC(bc)
     
@@ -91,9 +88,7 @@ class Player
     cd = CardDealer.instance
     
     n.times do
-      
-      t = cd.nextTreasure
-      @hiddenTreasures << t
+      @hiddenTreasures << cd.nextTreasure
     end
    
   end
@@ -190,12 +185,18 @@ class Player
   
   def combat (m)
     
-    level = haveStolen ? m.getCombatLevel+@enemy.getCombatLevel : m.getCombatLevel
+    dice = Dice.instance
+    n = dice.nextNumber
+    
+    level = !canISteal && n < 3 ? m.getCombatLevel+@enemy.getCombatLevel : m.getCombatLevel
     
     if getCombatLevel <= level then
       
       applyBadConsequence(m)
       
+      if m.getBadConsequence.death then 
+        @death = true
+      end
       return CombatResult::LOSE
     end
     
@@ -224,7 +225,7 @@ class Player
     
     @visibleTreasures -= [t]
     
-    if @pendingBC != nil && @pendingBC.empty? then
+    if @pendingBC != nil && !@pendingBC.empty? then
       
       @pendingBC.substractVisibleTreasure(t)
     
@@ -238,7 +239,7 @@ class Player
     
     @hiddenTreasures -= [t]
     
-    if @pendingBC != nil && @pendingBC.empty? then
+    if @pendingBC != nil && !@pendingBC.empty? then
       
       @pendingBC.substractHiddenTreasure(t)
     
@@ -250,15 +251,19 @@ class Player
   
   def validState
     
+    puts @pendingBC
     if @hiddenTreasures.length <= 4 then
            
-      unless !@pendingBC.nil? || !@pendingBC.empty?
+      if @pendingBC.nil?
+        return true
+      end
+      
+      if @pendingBC.empty?
         return true
       end
       
     end
-    
-    puts @pendingBC
+
     return false
     
   end
@@ -266,11 +271,11 @@ class Player
   def stealTreasure
     
     unless @canISteal 
-      return nill
+      return nil
     end
     
     unless @enemy.canYouGiveMeATreasure
-      return nill
+      return nil
     end
     
     t = @enemy.giveMeATreasure
@@ -320,11 +325,11 @@ class Player
   end
   
   def to_s
-    "#{@name}"
+    "#{@name} (Nivel de jugador: #{@level}  Nivel de combate: #{getCombatLevel})"
   end
   
-  private :bringToLife, :getCombatLevel, :incrementLevels, :decrementLevels, :setPendingBC, :applyPrize, :applyBadConsequence, :canMakeTreasureVisible, :howManyVisibleTreasures, :dieIfNoTreasures
-  protected :giveMeATreasure, :canYouGiveMeATreasure
+  private :bringToLife, :incrementLevels, :decrementLevels, :setPendingBC, :applyPrize, :applyBadConsequence, :canMakeTreasureVisible, :howManyVisibleTreasures, :dieIfNoTreasures
+  protected :giveMeATreasure, :canYouGiveMeATreasure, :getCombatLevel
   
 end
 end

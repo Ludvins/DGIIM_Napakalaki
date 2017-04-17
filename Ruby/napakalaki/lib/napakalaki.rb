@@ -133,11 +133,12 @@ class Napakalaki
   def nextTurn
     
     ret = nextTurnAllowed
-    
+
      if ret then
        @currentMonster = @dealer.nextMonster
        nextPlayer
-       
+
+      puts @currentPlayer
       if @currentPlayer.isDead then
         @currentPlayer.initTreasures
       end

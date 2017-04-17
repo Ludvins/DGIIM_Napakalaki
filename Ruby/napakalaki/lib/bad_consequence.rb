@@ -43,19 +43,24 @@ class BadConsequence
   end
 
   def to_s
-    "Text: #{@aText} \nLevels lost: #{@nLevels} \nVisible treasures lost: #{@nVisibleTreasures} \nHidden treasures lost: #{@nHiddenTreasures} \nSpecific visible treasures lost: #{@specificVisibleTreasures} \nSpecific hidden treasures lost: #{@specificHiddenTreasures} \nDeath: #{@death}"
+    "\n\tText: #{@aText} \n\tLevels lost: #{@nLevels} \n\tVisible treasures lost: #{@nVisibleTreasures} \n\tHidden treasures lost: #{@nHiddenTreasures} \n\tSpecific visible treasures lost: #{@specificVisibleTreasures} \n\tSpecific hidden treasures lost: #{@specificHiddenTreasures} \n\tDeath: #{@death}"
   end
   
   def empty?
-    @nLevels = 0 && @nVisibleTreasures = 0 && @nHiddenTreasures = 0 && @specificVisibleTreasures.empty? && @specificHiddenTreasures.empty? && @death = false
+    @nVisibleTreasures == 0 && @nHiddenTreasures == 0 && @specificVisibleTreasures.empty? && @specificHiddenTreasures.empty? && @death == false
   end
   
   def substractVisibleTreasure(t)
-    @specificVisibleTreasures.delete(t.type)
+    if @specificVisibleTreasures.delete(t.type).nil? && @nVisibleTreasures > 0 then
+         @nVisibleTreasures -= 1
+    end
+
   end
   
   def substractHiddenTreasure(t)
-    @specificHiddenTreasures.delete(t.type)
+    if @specificHiddenTreasures.delete(t.type).nil? && @nHiddenTreasures > 0 then
+           @nHiddenTreasures -= 1
+    end
   end
   
   def intersection(array1, array2)
@@ -66,15 +71,12 @@ class BadConsequence
   
   def adjustToFitTreasureList(vTreasures, hTreasures)
     
-    return @self if @death == true
+    return BadConsequence.newLevelNumberOfTreasures(@aText, 0, vTreasures.size, hTreasures.size) if @death
     
     if @specificVisibleTreasures.empty? && @specificHiddenTreasures.empty? then
         
       nvisible = [vTreasures.size, @nVisibleTreasures].min
       nhidden = [hTreasures.size, @nHiddenTreasures].min
-      
-      puts nvisible
-      puts nhidden
                     
       return BadConsequence.newLevelNumberOfTreasures(@aText, 0, nvisible, nhidden)
       
@@ -85,13 +87,6 @@ class BadConsequence
     
     tVisible = intersection(vTreasures, @specificVisibleTreasures)
     tHidden = intersection(hTreasures, @specificHiddenTreasures)
-    
-    puts vTreasures
-    puts @specificVisibleTreasures
-    puts tVisible
-    puts hTreasures
-    puts @specificHiddenTreasures
-    puts tHidden
     
     return BadConsequence.newLevelSpecificTreasures(@aText, 0, tVisible, tHidden)
     
