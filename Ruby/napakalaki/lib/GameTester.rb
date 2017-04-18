@@ -200,7 +200,6 @@ class GameTester
       when Command::Exit then 
         puts "exit"
       when Command::Combat then
-        puts "combat"
 #        puts "pulsa enter para seguir"
 #        gets
       when  Command::ShowMonster then 

@@ -15,6 +15,7 @@ class CardDealer
     
   attr_reader :usedMonsters, :unusedMonsters, :usedTreasures, :unusedTreasures
   
+  private
   def initTreasureDeck
     
     @usedTreasures = Array.new
@@ -172,6 +173,7 @@ class CardDealer
     
   end
   
+  public
   def nextTreasure
     
     if (@unusedTreasures.empty?)
