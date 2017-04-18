@@ -49,11 +49,12 @@ class Napakalaki
   
   def nextTurnAllowed
     
-    if @currentPlayer == nil
-      ret = true
-    else
-      ret = @currentPlayer.validState
+    if @currentPlayer.nil?
+      return true
     end
+    
+    return @currentPlayer.validState
+
     
     return ret
   end

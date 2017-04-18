@@ -47,17 +47,9 @@ class Player
   end
   
   def getCombatLevel
-    
-    n = @level
-    
-    @visibleTreasures.each do |t|
-      
-      n += t.bonus
-      
-    end    
-    
-    return n
-    
+   
+    @visibleTreasures.inject(@level) { |acc,t| acc + t.bonus }
+
   end
   
   def incrementLevels(n)
@@ -119,7 +111,7 @@ class Player
   end
   
   def canYouGiveMeATreasure
-    @hiddenTreasures.empty?
+    @hiddenTreasures.any?
   end
   
   def haveStolen
@@ -144,43 +136,22 @@ class Player
   
   def howManyVisibleTreasures(tk)
     
-    ret = 0
     
-    @visibleTreasures.each do |v|
-      
-      if v.type == tk
-        ret = ret +1
-      end
-      
-    end
-    
-    return ret
-    
+    @visibleTreasures.count(tk)
+
   end
   
   
   def isTreasureKindInUse(type)
     
-   
-    @visibleTreasures.each do |t|
-      
-      if (t.type == type)
-        then
-        return true
-      end
-      
-    end
     
-    return false
-  
+    @visibleTreasures.collect{ |a| a.type}.include?(type)
+
   end
   
   def dieIfNoTreasures
     
-    if @visibleTreasures.empty? && @hiddenTreasures.empty?
-      then 
-      @death = true
-    end
+    @death = true if @visibleTreasures.empty? && @hiddenTreasures.empty?
   end
   
   def combat (m)
@@ -213,11 +184,10 @@ class Player
   
   def makeTreasureVisible(t)
     
-    if canMakeTreasureVisible(t)
-      then
+    if canMakeTreasureVisible(t) then
       
-      @visibleTreasures << t
-      @hiddenTreasures.delete(t)
+      @visibleTreasures << @hiddenTreasures.delete(t)
+
     end
   end
   
@@ -269,26 +239,24 @@ class Player
   
   def stealTreasure
     
-    unless @canISteal 
+    unless @canISteal && @enemy.canYouGiveMeATreasure
+      puts @canISteal
+      puts @enemy.canYouGiveMeATreasure
       return nil
     end
-    
-    unless @enemy.canYouGiveMeATreasure
-      return nil
-    end
-    
-    t = @enemy.giveMeATreasure
-    @hiddenTreasure << t
-    
+        
     haveStolen
     
+    t = @enemy.giveMeATreasure
+    @hiddenTreasures << t
+
    return t
   end
   
   def giveMeATreasure
     
     t = @hiddenTreasures[rand(@hiddenTreasures.size)]
-    @hiddenTreasures.delete(t)
+    discardHiddenTreasure(t)
     return t
   end
   
