@@ -89,6 +89,8 @@ class Player
     
     decrementLevels(m.getBadConsequence.nLevels)
     
+    @death = true if m.getBadConsequence.death
+ 
     setPendingBC(m.getBadConsequence.adjustToFitTreasureList(@visibleTreasures, @hiddenTreasures))
     
   end
@@ -165,9 +167,6 @@ class Player
       
       applyBadConsequence(m)
       
-      if m.getBadConsequence.death then 
-        @death = true
-      end
       return CombatResult::LOSE
     end
     

@@ -140,7 +140,6 @@ class Napakalaki
        nextPlayer
 
       if @currentPlayer.isDead then
-        puts "Jugador Muerto - Asignando tesoros nuevos."
         @currentPlayer.initTreasures
       end
      end
