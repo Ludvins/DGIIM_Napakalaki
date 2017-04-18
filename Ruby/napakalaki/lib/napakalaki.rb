@@ -138,8 +138,8 @@ class Napakalaki
        @currentMonster = @dealer.nextMonster
        nextPlayer
 
-      puts @currentPlayer
       if @currentPlayer.isDead then
+        puts "Jugador Muerto - Asignando tesoros nuevos."
         @currentPlayer.initTreasures
       end
      end

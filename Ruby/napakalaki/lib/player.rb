@@ -251,7 +251,6 @@ class Player
   
   def validState
     
-    puts @pendingBC
     if @hiddenTreasures.length <= 4 then
            
       if @pendingBC.nil?
@@ -325,7 +324,7 @@ class Player
   end
   
   def to_s
-    "#{@name} (Nivel de jugador: #{@level}  Nivel de combate: #{getCombatLevel})"
+    "#{@name} (Nivel de jugador: #{@level}  Nivel de combate: #{getCombatLevel}  Enemigo: #{@enemy.getName})"
   end
   
   private :bringToLife, :incrementLevels, :decrementLevels, :setPendingBC, :applyPrize, :applyBadConsequence, :canMakeTreasureVisible, :howManyVisibleTreasures, :dieIfNoTreasures
