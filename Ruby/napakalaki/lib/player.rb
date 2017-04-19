@@ -139,7 +139,7 @@ class Player
   def howManyVisibleTreasures(tk)
     
     
-    @visibleTreasures.count(tk)
+    @visibleTreasures.collect{ |a| a.type}.count(tk)
 
   end
   
@@ -220,27 +220,13 @@ class Player
   
   def validState
     
-    if @hiddenTreasures.length <= 4 then
-           
-      if @pendingBC.nil?
-        return true
-      end
-      
-      if @pendingBC.empty?
-        return true
-      end
-      
-    end
-
-    return false
+    return @hiddenTreasures.length <= 4 && (@pendingBC.nil? || @pendingBC.empty?)
     
   end
   
   def stealTreasure
     
     unless @canISteal && @enemy.canYouGiveMeATreasure
-      puts @canISteal
-      puts @enemy.canYouGiveMeATreasure
       return nil
     end
         
