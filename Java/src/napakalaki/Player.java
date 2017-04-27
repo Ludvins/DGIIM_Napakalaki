@@ -2,7 +2,10 @@
 
 package napakalaki;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -11,7 +14,7 @@ import java.util.Random;
 
 public class Player {
     
-    private String name;
+    private final String name;
     private int level = 1;
     private boolean dead = true; 
     private boolean canISteal = true;
@@ -37,15 +40,14 @@ public class Player {
         dead = false;
     }
     
-    private int getCombatLevel() {
-        
-        int lv = this.level;
-        
-        for (Treasure t : this.visibleTreasures){
-            lv += t.getBonus();
-        }
-        
-        return lv;
+    public boolean canISteal(){
+        return canISteal;
+    }
+    
+    protected int getCombatLevel() {
+
+        return this.visibleTreasures.stream().map(Treasure::getBonus).reduce(this.level, Integer::sum);
+
     }
     
     private void incrementLevels(int l){
@@ -55,9 +57,8 @@ public class Player {
     
     private void decrementLevels(int l){
         
-        if(this.level <= l) this.level = 1;
-        else
-            this.level -= l;
+        this.level = this.level <= l ? 1 : this.level-l;
+
     }
     
     private void setPendingBadconsequence (BadConsequence r){
@@ -72,7 +73,8 @@ public class Player {
             
         CardDealer cd = CardDealer.getInstance();
             
-        for (int i = 0; i < nTreasures; i++) this.hiddenTreasures.add(cd.nextTreasure());
+        for (int i = 0; i < nTreasures; i++) 
+            this.hiddenTreasures.add(cd.nextTreasure());
 
         
     }
@@ -80,6 +82,8 @@ public class Player {
     private void applyBadConsequence (Monster m){
         
         this.decrementLevels(m.getBadconsequence().getLevels());
+        
+        if (m.getBadconsequence().isDeath()) this.dead = true;
         
         this.setPendingBadconsequence(m.getBadconsequence().adjustToFitTreasureLists(this.visibleTreasures, this.hiddenTreasures));
               
@@ -91,47 +95,32 @@ public class Player {
         
         if (t.getType() == TreasureKind.ONEHAND && !this.isTreasureKindInUse(TreasureKind.BOTHHANDS)  && this.howManyVisibleTreasures(TreasureKind.ONEHAND) < 2) return true;
     
-        if (t.getType() == TreasureKind.BOTHHANDS && !this.isTreasureKindInUse(TreasureKind.BOTHHANDS)  && this.howManyVisibleTreasures(TreasureKind.ONEHAND) == 0) return true;
-    
-        return false;
+        return t.getType() == TreasureKind.BOTHHANDS && !this.isTreasureKindInUse(TreasureKind.BOTHHANDS)  && this.howManyVisibleTreasures(TreasureKind.ONEHAND) == 0;
     
     }
     
-    private Treasure giveMeATreasure(){
+    protected Treasure giveMeATreasure(){
         
         Random rd = new Random();
-        int index = rd.nextInt() % this.hiddenTreasures.size();
+        Treasure t = this.hiddenTreasures.get(rd.nextInt() % this.hiddenTreasures.size());
         
-        return this.hiddenTreasures.remove(index);
+        this.discardHiddenTreasure(t);
+        
+        return t;
     }
     
     private int howManyVisibleTreasures(TreasureKind tk){
-     
-        int ret = 0;
-        
-        for (Treasure t : this.visibleTreasures){
-            
-            if(t.getType() == tk) ret++;
-        }
-        
-        return ret;
+
+        int b = Collections.frequency(this.visibleTreasures.stream().map(a -> a.getType()).collect(Collectors.toList()), tk);
+        System.out.println(b);
+        return b;
     }
     
     private boolean isTreasureKindInUse(TreasureKind type) {
         
-        
-        for (Treasure t : this.visibleTreasures) {
-
-            if (type == t.getType()) {
-
-                return true;
-                
-
-            }
-
-        }
-        
-        return false;
+        boolean c = this.visibleTreasures.stream().map( a -> a.getType() ).collect(Collectors.toList()).contains(type);
+        System.out.println(c);
+        return c;
     }
     
     private void dieIfNoTreasures() {
@@ -212,7 +201,7 @@ public class Player {
     
     public boolean ValidState(){
         
-        return this.pendingBC == null || (this.pendingBC.isEmpty() && this.hiddenTreasures.size() <= 4);
+        return (this.pendingBC == null || this.pendingBC.isEmpty()) && this.hiddenTreasures.size() <= 4;
         
     }
     
@@ -228,24 +217,18 @@ public class Player {
         
         int number = dice.nextNumber();
         
-        switch (number) {
+        treasure = dealer.nextTreasure();
+        this.hiddenTreasures.add(treasure);   
+        
+        if (number == 6) {
             
-            case 6:
-                
-                treasure = dealer.nextTreasure();
-                this.hiddenTreasures.add(treasure);
-            
-            case 5:
-            case 4:
-            case 3:
-            case 2:
-                treasure = dealer.nextTreasure();
-                this.hiddenTreasures.add(treasure);
-                
-            case 1:
-                treasure = dealer.nextTreasure();
-                this.hiddenTreasures.add(treasure);
-            
+            treasure = dealer.nextTreasure();
+            this.hiddenTreasures.add(treasure);
+        }
+        
+        else if (number > 1){
+            treasure = dealer.nextTreasure();
+            this.hiddenTreasures.add(treasure);
         }
       
     }
@@ -258,9 +241,7 @@ public class Player {
     
     public Treasure stealTreasure(){
         
-        if(!this.canISteal) return null;
-       
-        if(!this.enemy.canYouGiveMeATreasure()) return null;
+        if(!this.canISteal || !this.enemy.canYouGiveMeATreasure()) return null;
         
         Treasure t = this.enemy.giveMeATreasure();
         this.hiddenTreasures.add(t);
@@ -270,8 +251,8 @@ public class Player {
         return t;
     }   
     
-    private boolean canYouGiveMeATreasure(){
-        return this.hiddenTreasures.isEmpty();
+    protected boolean canYouGiveMeATreasure(){
+        return !this.hiddenTreasures.isEmpty();
     }
     
     public void haveStolen(){
@@ -293,6 +274,11 @@ public class Player {
         
         this.enemy = enemy;
     
+    }
+    
+    @Override
+    public String toString() {
+        return name + " Nivel del jugador: " + level + " Nivel de combate: " + getCombatLevel() + " Enemigo: " + enemy.getName();
     }
 
 }

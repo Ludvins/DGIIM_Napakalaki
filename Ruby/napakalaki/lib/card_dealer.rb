@@ -8,6 +8,7 @@ require_relative "monster.rb"
 require_relative "prize.rb"
 require_relative "bad_consequence.rb"
 require_relative 'treasure_kind.rb'
+require_relative 'cultist.rb'
 
 class CardDealer
   
@@ -65,101 +66,160 @@ class CardDealer
     @unusedMonsters = Array.new
     
     # 3 byakhees de bonanza
-    price1 = Prize.new(2, 1)
-    badConsequence1 = BadConsequence.newLevelSpecificTreasures('Pierdes tu armadura visible y otra oculta', 0, [TreasureKind::ARMOR], [TreasureKind::ARMOR])
-    @unusedMonsters << Monster.new('3 byakhees de bonanza', 8, price1, badConsequence1)
+    p = Prize.new(2, 1)
+    b = BadConsequence.newLevelSpecificTreasures('Pierdes tu armadura visible y otra oculta', 0, [TreasureKind::ARMOR], [TreasureKind::ARMOR])
+    @unusedMonsters << Monster.newStandard('3 byakhees de bonanza', 8, p, b)
     
     # Tenochtitlan
-    price2 = Prize.new(1, 1)
-    badConsequence2 = BadConsequence.newLevelSpecificTreasures('Embobados con el primigenio te descartas de tu casco visible.', 0, [] , [TreasureKind::HELMET])
-    @unusedMonsters << Monster.new('Tenochtitlan', 2, price2, badConsequence2)
+    p = Prize.new(1, 1)
+    b = BadConsequence.newLevelSpecificTreasures('Embobados con el primigenio te descartas de tu casco visible.', 0, [] , [TreasureKind::HELMET])
+    @unusedMonsters << Monster.newStandard('Tenochtitlan', 2, p, b)
     
     # El sopor de Dunwich
-    price3 = Prize.new(1, 1)
-    badConsequence3 = BadConsequence.newLevelSpecificTreasures('El primordial bostezo contagioso, pierdes el calzado visible', 0, [TreasureKind::SHOES], [])
-    @unusedMonsters << Monster.new('El sopor de Dunwich', 2, price3, badConsequence3)
+    p = Prize.new(1, 1)
+    b = BadConsequence.newLevelSpecificTreasures('El primordial bostezo contagioso, pierdes el calzado visible', 0, [TreasureKind::SHOES], [])
+    @unusedMonsters << Monster.newStandard('El sopor de Dunwich', 2, p, b)
     
     # Demonios de magaluf
-    prize4 = Prize.new(4, 1)
-    bc4 = BadConsequence.newLevelSpecificTreasures("Te atrapan para llevarte de fiesta y te dejan caer en mitad de vuelo. Descarta 1 mano visible y 1 mano oculta.", 0, [TreasureKind::ONEHAND], [TreasureKind::ONEHAND])
-    @unusedMonsters << Monster.new('Demonios de magaluf', 2, prize4, bc4)
+    p = Prize.new(4, 1)
+    b = BadConsequence.newLevelSpecificTreasures("Te atrapan para llevarte de fiesta y te dejan caer en mitad de vuelo. Descarta 1 mano visible y 1 mano oculta.", 0, [TreasureKind::ONEHAND], [TreasureKind::ONEHAND])
+    @unusedMonsters << Monster.newStandard('Demonios de magaluf', 2, p, b)
     
     # El gorron en el umbral
-    p5 = Prize.new(3, 1)
-    bc5 = BadConsequence.newLevelNumberOfTreasures("pierdes todos tus tesoros visibles", 0, 10, 0)
-    @unusedMonsters << Monster.new('El gorron del umbral', 13, p5, bc5)
+    p = Prize.new(3, 1)
+    b = BadConsequence.newLevelNumberOfTreasures("pierdes todos tus tesoros visibles", 0, 10, 0)
+    @unusedMonsters << Monster.newStandard('El gorron del umbral', 13, p, b)
     
     # H.P munchcraft
-    p6 = Prize.new(2, 1)
-    bc6 = BadConsequence.newLevelSpecificTreasures("Pierdes la armadura visible", 0, [TreasureKind::ARMOR], [])
-    @unusedMonsters << Monster.new('H.P. Munchcraft', 6, p6, bc6)
+    p = Prize.new(2, 1)
+    b = BadConsequence.newLevelSpecificTreasures("Pierdes la armadura visible", 0, [TreasureKind::ARMOR], [])
+    @unusedMonsters << Monster.newStandard('H.P. Munchcraft', 6, p, b)
     
     # Necrofago
-    p7 = Prize.new(1, 1)
-    bc7 = BadConsequence.newLevelSpecificTreasures("Sientes bichos bajo la ropa. Descarta la armadura visible", 0, [TreasureKind::ARMOR], [])
-    @unusedMonsters << Monster.new('Necrofago', 13, p7, bc7)
+    p = Prize.new(1, 1)
+    b = BadConsequence.newLevelSpecificTreasures("Sientes bichos bajo la ropa. Descarta la armadura visible", 0, [TreasureKind::ARMOR], [])
+    @unusedMonsters << Monster.newStandard('Necrofago', 13, p, b)
     
     # El rey rosado
-    price = Prize.new(3,2)
-    badConsequence = BadConsequence.newLevelNumberOfTreasures('Pierdes 5 niveles y 3 tesoros visibles',5 , 3, 0)
-    @unusedMonsters << Monster.new('El rey rosado',11,price, badConsequence)
+    p = Prize.new(3,2)
+    b = BadConsequence.newLevelNumberOfTreasures('Pierdes 5 niveles y 3 tesoros visibles',5 , 3, 0)
+    @unusedMonsters << Monster.newStandard('El rey rosado',11, p, b)
     
     # Flecher
-    p8 = Prize.new(1, 1)
-    bc8 = BadConsequence.newLevelNumberOfTreasures("Toses los pulmones y pierdes 2 niveles", 2, 0, 0)
-    @unusedMonsters << Monster.new('Flecher', 2, p8, bc8)
+    p = Prize.new(1, 1)
+    b = BadConsequence.newLevelNumberOfTreasures("Toses los pulmones y pierdes 2 niveles", 2, 0, 0)
+    @unusedMonsters << Monster.newStandard('Flecher', 2, p, b)
     
     # los hondos
-    p9 = Prize.new(2, 1)
-    bc9 = BadConsequence.newDeath('Estos monstruos resultan bastante superficiales y te aburren mortalmente. Estas muerto')
-    @unusedMonsters << Monster.new('los hondos', 8, p9, bc9)
+    p = Prize.new(2, 1)
+    b = BadConsequence.newDeath('Estos monstruos resultan bastante superficiales y te aburren mortalmente. Estas muerto')
+    @unusedMonsters << Monster.newStandard('Los hondos', 8, p, b)
     
     # semillas cthulhu
-    p10 = Prize.new(2, 1)
-    bc10 = BadConsequence.newLevelNumberOfTreasures('Pierdes 2 niveles y 2 tesoros ocultos', 2, 0, 2)
-    @unusedMonsters << Monster.new('Semillas Cthulhu', 4, p10, bc10)
+    p = Prize.new(2, 1)
+    b = BadConsequence.newLevelNumberOfTreasures('Pierdes 2 niveles y 2 tesoros ocultos', 2, 0, 2)
+    @unusedMonsters << Monster.newStandard('Semillas Cthulhu', 4, p, b)
     
     # Dameargo
-    p11 = Prize.new(2, 1)
-    bc11 = BadConsequence.newLevelSpecificTreasures('Te intentas escaquear. Pierdes una mano visible', 0, [TreasureKind::ONEHAND], [])
-    @unusedMonsters << Monster.new('Dameargo', 1, p11, bc11)
+    p = Prize.new(2, 1)
+    b = BadConsequence.newLevelSpecificTreasures('Te intentas escaquear. Pierdes una mano visible', 0, [TreasureKind::ONEHAND], [])
+    @unusedMonsters << Monster.newStandard('Dameargo', 1, p, b)
     
     # Pollipolipo volante
-    p12 = Prize.new(2, 1)
-    bc12 = BadConsequence.newLevelNumberOfTreasures('Da mucho asquito. Pierdes 3 niveles', 3, 0, 0)
-    @unusedMonsters << Monster.new('Pollipolipo volante', 3, p12, bc12)
+    p = Prize.new(2, 1)
+    b = BadConsequence.newLevelNumberOfTreasures('Da mucho asquito. Pierdes 3 niveles', 3, 0, 0)
+    @unusedMonsters << Monster.newStandard('Pollipolipo volante', 3, p, b)
     
     # Yskhtihyssg-Goth
-    p13 = Prize.new(3, 1)
-    bc13 = BadConsequence.newDeath('No le hace gracia que pronuncien mal su nombre. Estas muerto')
-    @unusedMonsters << Monster.new('Yskhtihyssg-Goth', 14, p13, bc13)
+    p = Prize.new(3, 1)
+    b = BadConsequence.newDeath('No le hace gracia que pronuncien mal su nombre. Estas muerto')
+    @unusedMonsters << Monster.newStandard('Yskhtihyssg-Goth', 14, p, b)
     
     # Familia Feliz
-    p14 = Prize.new(3, 1)
-    bc14 = BadConsequence.newDeath('La familia te atrapa. Estas muerto')
-    @unusedMonsters << Monster.new('Familia feliz', 1, p14, bc14)
+    p = Prize.new(3, 1)
+    b = BadConsequence.newDeath('La familia te atrapa. Estas muerto')
+    @unusedMonsters << Monster.newStandard('Familia feliz', 1, p, b)
     
     # Roboggoth
-    p15 = Prize.new(2, 1)
-    bc15 = BadConsequence.newLevelSpecificTreasures('La quinta directiva primitiva te obliga a perder 2 niveles y un tesoro 2 manos visible',2,[TreasureKind::BOTHHANDS],[])
-    @unusedMonsters << Monster.new('Robbogoth', 8, p15, bc15)
+    p = Prize.new(2, 1)
+    b = BadConsequence.newLevelSpecificTreasures('La quinta directiva primitiva te obliga a perder 2 niveles y un tesoro 2 manos visible',2,[TreasureKind::BOTHHANDS],[])
+    @unusedMonsters << Monster.newStandard('Robbogoth', 8, p, b)
     
     # El Espía sordo
-    p16 = Prize.new(1, 1)
-    bc16 = BadConsequence.newLevelSpecificTreasures('Te asusta en la noche.Pierdes un casco visible',0,[TreasureKind::HELMET],[])
-    @unusedMonsters << Monster.new('El espia sordo', 5, p16, bc16)
+    p = Prize.new(1, 1)
+    b = BadConsequence.newLevelSpecificTreasures('Te asusta en la noche.Pierdes un casco visible',0,[TreasureKind::HELMET],[])
+    @unusedMonsters << Monster.newStandard('El espia sordo', 5, p, b)
     
     #Tongue
-    p17 = Prize.new(2, 1)
-    bc17 = BadConsequence.newLevelNumberOfTreasures('Menudo susto te llevas. Pierdes 2 niveles y 5 tesoros visibles.', 2, 5, 0)
-    @unusedMonsters << Monster.new('Tongue', 19, p17, bc17)
+    p = Prize.new(2, 1)
+    b = BadConsequence.newLevelNumberOfTreasures('Menudo susto te llevas. Pierdes 2 niveles y 5 tesoros visibles.', 2, 5, 0)
+    @unusedMonsters << Monster.newStandard('Tongue', 19, p, b)
     
     #Bicéfalo
-    p18 = Prize.new(2, 1)
-    bc18 = BadConsequence.newLevelSpecificTreasures('Te faltan manos para tanta cabeza. Pierdes 3 niveles y tus tesoros visibles de las manos.', 3, [TreasureKind::ONEHAND,TreasureKind::ONEHAND,TreasureKind::BOTHHANDS], [])
-    @unusedMonsters << Monster.new('Bicefalo', 21, p18, bc18)
+    p = Prize.new(2, 1)
+    b = BadConsequence.newLevelSpecificTreasures('Te faltan manos para tanta cabeza. Pierdes 3 niveles y tus tesoros visibles de las manos.', 3, [TreasureKind::ONEHAND,TreasureKind::ONEHAND,TreasureKind::BOTHHANDS], [])
+    @unusedMonsters << Monster.newStandard('Bicefalo', 21, p, b)
+    
+    
+    
+    #El mal indecible impronunciable
+    p = Prize.new(3, 1)
+    b = BadConsequence.newLevelSpecificTreasures('Pierdes una mano visible.', 0, [TreasureKind::ONEHAND], [])
+    @unusedMonsters << Monster.newCultist('El mal indecible impronunciable', 10, p, b, -2)
+    
+    #Testigos oculates
+    p = Prize.new(2, 1)
+    b = BadConsequence.newLevelNumberOfTreasures('Pierdes tus tesoros visibles. Jajaja', 0, 5, 0)
+    @unusedMonsters << Monster.newCultist('Testigos oculates', 6, p, b, 2)
+    
+    
+    #El gran Cthulhu
+    p = Prize.new(2, 5)
+    b = BadConsequence.newDeath('Hoy no es tu dia de suerte. Mueres.')
+    @unusedMonsters << Monster.newCultist('El gran Cthulhu', 20, p, b, 4)
+    
+    
+    #Serpiente politico
+    p = Prize.new(2, 1)
+    b = BadConsequence.newLevelNumberOfTreasures('Tu gobierno te recorta 2 niveles.', 2, 0, 0)
+    @unusedMonsters << Monster.newCultist('El mal indecible impronunciable', 8, p, b, -2)
+    
+    
+    #Felpuggoth
+    p = Prize.new(1, 1)
+    b = BadConsequence.newLevelSpecificTreasures('Pierdes tu casco y tu armadura visible. Pierdes tus manos ocultas.', 0, [TreasureKind::HELMET, TreasureKind::ARMOR], [TreasureKind::ONEHAND, TreasureKind::ONEHAND, TreasureKind::BOTHHANDS])
+    @unusedMonsters << Monster.newCultist('Felpuggoth', 2, p, b, 5)
+    
+    #Shoggoth
+    p = Prize.new(4, 2)
+    b = BadConsequence.newLevelNumberOfTreasures('Pierdes 2 niveles.', 2, 0, 0)
+    @unusedMonsters << Monster.newCultist('Shoggoth', 16, p, b, -4)
+    
+    #Lolitagooth
+    p = Prize.new(1, 1)
+    b = BadConsequence.newLevelNumberOfTreasures('Pintalabios negro. Pierdes 2 niveles.', 2, 0, 0)
+    @unusedMonsters << Monster.newCultist('Lolitagooth', 2, p, b, 3)
+
   end
   
+  def initCultistsDeck
+    @usedCultists = Array.new
+    @unusedCultists = Array.new
+    
+    @unusedCultists << Cultist.new(1)
+    @unusedCultists << Cultist.new(1)
+    @unusedCultists << Cultist.new(1)
+    @unusedCultists << Cultist.new(1)
+    @unusedCultists << Cultist.new(2)
+    @unusedCultists << Cultist.new(2)
+
+  end
+  
+  def shuffleCultists
+    
+    @unusedCultists.shuffle!
+    
+  end
   
   def shuffleTreasures
     
@@ -174,10 +234,23 @@ class CardDealer
   end
   
   public
+  
+  def nextCultist 
+    
+    t = @unusedCultists.at(0)
+    
+    @usedCultists << t
+    
+    @unusedCultists.delete(t)
+    
+    return t
+    
+  end
+  
+  
   def nextTreasure
     
     if (@unusedTreasures.empty?)
-      then 
       
       @usedTreasures.each do |t|
         
@@ -204,7 +277,6 @@ class CardDealer
   def nextMonster
     
     if (@unusedMonsters.empty?)
-      then
       
       @usedMonsters.each do |m|
         
@@ -242,7 +314,9 @@ class CardDealer
     
     initMonsterDeck
     initTreasureDeck
+    initCultistsDeck
     
+    shuffleCultists
     shuffleMonsters
     shuffleTreasures
     

@@ -2,6 +2,7 @@
 
 package napakalaki;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 /**
  *
  * @author ludvins
@@ -71,7 +72,7 @@ public class BadConsequence {
 
     @Override
     public String toString() {
-        return "BadConsequence{" + "text=" + text + ", levels=" + levels + ", nVisibleTreasures=" + nVisibleTreasures + ", nHiddenTreasures=" + nHiddenTreasures + ", death=" + death + ", specificHiddenTreasures=" + specificHiddenTreasures + ", specificVisibleTreasures=" + specificVisibleTreasures + '}';
+        return "\n\tText: " + text + "\n\tLevels: " + levels + "\n\tnVisibleTreasures: " + nVisibleTreasures + "\n\tnHiddenTreasures: " + nHiddenTreasures + "\n\tDeath: " + death + "\n\tSpecificHiddenTreasures: " + specificHiddenTreasures + "\n\tSpecificVisibleTreasures: " + specificVisibleTreasures;
     }
         
     
@@ -89,36 +90,19 @@ public class BadConsequence {
     
     public BadConsequence adjustToFitTreasureLists(ArrayList<Treasure> v, ArrayList<Treasure> h){
         
-        if (this.death) return this;
+        if (this.death) return new BadConsequence(text, 0 , nHiddenTreasures, nVisibleTreasures);
         
-        ArrayList<TreasureKind> tHidden = new ArrayList();
-        ArrayList<TreasureKind> tVisible = new ArrayList();
-        
-        int nvisible = v.size();
-        int nhidden = h.size();
-        
-        if (this.nHiddenTreasures < nhidden) nhidden = this.nHiddenTreasures;
-        
-        if (this.nVisibleTreasures < nvisible) nvisible = this.nVisibleTreasures;
-                
-        
-        for (Treasure t : v) {
+        if (specificHiddenTreasures.isEmpty() && specificVisibleTreasures.isEmpty())
             
-            if(this.specificVisibleTreasures.contains(t.getType())) tVisible.add(t.getType());
-            
-        }
-
-        for (Treasure t : h) {
-            
-            if(this.specificHiddenTreasures.contains(t.getType())) tHidden.add(t.getType());
-        }
-       
-        if(tVisible.isEmpty() && tHidden.isEmpty()){
-            
-         return new BadConsequence(this.text, this.levels, nvisible, nhidden);
-        }
+            return new BadConsequence(text, 0, Math.min(nVisibleTreasures, v.size()), Math.min(nHiddenTreasures, h.size()));
         
-         return new BadConsequence(this.text, this.levels, tVisible, tHidden);
+         ArrayList <TreasureKind> vt = v.stream().map(a -> a.getType()).collect(Collectors.toCollection(ArrayList::new));
+         ArrayList <TreasureKind> ht = h.stream().map(a -> a.getType()).collect(Collectors.toCollection(ArrayList::new));
+        
+         vt.retainAll(this.specificVisibleTreasures);
+         ht.retainAll(this.specificHiddenTreasures);
+         
+         return new BadConsequence(this.text, 0, vt, ht);
         
     }
     

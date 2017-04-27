@@ -9,11 +9,26 @@ require_relative 'bad_consequence.rb'
 
 class Monster
   
-  def initialize(name, combatLevel, prize, badConsequence)
+  private_class_method :new
+  
+  def self.newStandard (name, combatLevel, prize, badConsequence)
+    
+    new(name, combatLevel, prize, badConsequence)
+    
+  end
+  
+  def self.newCultist(name, combatLevel, prize, badConsequence, levelChange)
+    
+    new(name, combatLevel, prize, badConsequence, levelChange)
+    
+  end
+  
+  def initialize(name, combatLevel, prize, badConsequence, levelChange = 0)
     @name = name
     @combatLevel = combatLevel
     @prize = prize
     @badConsequence = badConsequence
+    @levelChangeAgainstCultistPlayer = levelChange
   end
 
   def getName
@@ -26,6 +41,10 @@ class Monster
   
   def getPrize
     @prize
+  end
+  
+  def getCombatLevelAgainstCultistPlayer
+    @combatLevel + @levelChangeAgainstCultistPlayer
   end
   
   def getBadConsequence

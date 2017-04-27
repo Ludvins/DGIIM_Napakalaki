@@ -16,12 +16,12 @@ public class Napakalaki {
     private static Napakalaki instance = null;
     private Monster currentMonster;
     private final CardDealer cardDealer = CardDealer.getInstance();
-    private Player currentPlayer;
+    private int currentPlayer;
     private ArrayList<Player> players; 
     
     private Napakalaki () {} 
     
-    public Napakalaki getInstance () {
+    public static Napakalaki getInstance () {
         
         if (instance == null) instance = new Napakalaki();
        
@@ -36,36 +36,20 @@ public class Napakalaki {
             this.players.add(new Player(a));
         }
         
+        Random rd = new Random();
+        this.currentPlayer = rd.nextInt(this.players.size());
+        
     }
     
     private void nextPlayer(){
         
-        if(this.currentPlayer == null){
-            
-            Random rd = new Random();
-           
-            this.currentPlayer = players.get(rd.nextInt() % this.players.size());
-        }
-        else {
-            
-            if (this.players.indexOf(this.currentPlayer)== this.players.size())
-                this.currentPlayer = this.players.get(0);
-            
-            else 
-                this.currentPlayer = this.players.get(this.players.indexOf(this.currentPlayer) + 1 );
-        }
+       this.currentPlayer = (this.currentPlayer + 1) % this.players.size();
     }
     
     private boolean nextTurnIsAllowed(){
-        
-        boolean ret;
-        
-        if (this.currentPlayer == null) ret = true;
-        
-        else ret = this.currentPlayer.ValidState();
-        
-        return ret;
-   
+ 
+        return this.players.get(currentPlayer).ValidState();
+
     }
     
     private void setEnemies() {
@@ -77,7 +61,7 @@ public class Napakalaki {
      
             do {
             
-                n = rd.nextInt() % this.players.size();
+                n = rd.nextInt( this.players.size());
         
             }
             while(n == i); 
@@ -88,7 +72,7 @@ public class Napakalaki {
     
     public CombatResult developCombat(){
         
-        CombatResult combat = this.currentPlayer.combat(this.currentMonster);
+        CombatResult combat = this.players.get(currentPlayer).combat(this.currentMonster);
         
         // Sectario
         
@@ -99,7 +83,7 @@ public class Napakalaki {
         
         for (Treasure t : treasures){
             
-            this.currentPlayer.discardVisibleTreasure(t);
+            this.players.get(currentPlayer).discardVisibleTreasure(t);
             
         }
         
@@ -109,7 +93,7 @@ public class Napakalaki {
         
         for (Treasure t: treasures){
             
-            this.currentPlayer.discardHiddenTreasure(t);
+            this.players.get(currentPlayer).discardHiddenTreasure(t);
         
         }
     }
@@ -118,7 +102,7 @@ public class Napakalaki {
         
         for (Treasure t : treasure){
             
-            this.currentPlayer.makeTreasureVisible(t);
+            this.players.get(currentPlayer).makeTreasureVisible(t);
         }
     }
     
@@ -135,7 +119,7 @@ public class Napakalaki {
     
     public Player getCurrentPlayer(){
         
-        return this.currentPlayer;
+        return this.players.get(currentPlayer);
     }
     
     public Monster getCurrentMonster() {
@@ -153,7 +137,7 @@ public class Napakalaki {
             this.currentMonster = this.cardDealer.nextMonster();
             this.nextPlayer();
                      
-            if (this.currentPlayer.isDead()) this.currentPlayer.initTreasures();
+            if (this.players.get(currentPlayer).isDead())this.players.get(currentPlayer).initTreasures();
             
         }
         

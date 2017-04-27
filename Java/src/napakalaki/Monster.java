@@ -41,7 +41,7 @@ public class Monster {
 
     @Override
     public String toString() {
-        return "Monster{" + "name=" + name + ", combatLevel=" + combatLevel + ", prize=" + prize + ", badconsequence=" + badconsequence + '}';
+        return "\nName: " + name + "\nCombatLevel: " + combatLevel + "\nPrize: " + prize + "\nBadconsequence: " + badconsequence;
     }
     
     

@@ -3,13 +3,15 @@
 # and open the template in the editor.
 
 module NapakalakiGame
-
-module CombatResult
+class Cultist
   
-    WIN =:WIN
-    LOSE =:LOSE
-    WINGAME =:WINGAME
-    LOSEANDCONVERT =:LOSEANDCONVERT
-    
+  def initialize(levels)
+    @levels = levels
+  end
+  
+  def getGainedBonus
+    @levels
+  end
+  
 end
 end

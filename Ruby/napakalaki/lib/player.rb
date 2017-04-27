@@ -24,6 +24,20 @@ class Player
     
   end
   
+  
+  def copy(player)
+    
+    @name = player.getName
+    @visibleTreasures = player.getVisibleTreasures
+    @hiddenTreasures = player.getHiddenTreasures
+    @death = player.isDead
+    @canISteal = player.canISteal
+    @enemy = player.getEnemy
+    @level = player.getLevel
+    @pendingBC = player.getBC
+    
+  end
+  
   def bringToLife
     
     @death = false
@@ -34,8 +48,29 @@ class Player
     @name
   end
   
+  def getLevel
+    @level
+  end
+  
+  def getBC
+    @pendingBC
+  end
+  
+  def getEnemy
+    @enemy
+  end
+  
   def isDead
     @death
+  end
+  
+  def shouldConvert
+    
+    dice = Dice.instance
+    n = dice.nextNumber
+    
+    return true if n == 6
+    
   end
   
   def getVisibleTreasures
@@ -105,11 +140,8 @@ class Player
       return true
     end
     
-    if t.type == TreasureKind::BOTHHANDS && !isTreasureKindInUse(t.type) && howManyVisibleTreasures(TreasureKind::ONEHAND) == 0
-      return true
-    end
-    
-    return false
+    return t.type == TreasureKind::BOTHHANDS && !isTreasureKindInUse(t.type) && howManyVisibleTreasures(TreasureKind::ONEHAND) == 0
+
   end
   
   def canYouGiveMeATreasure
@@ -145,10 +177,13 @@ class Player
   
   
   def isTreasureKindInUse(type)
-    
-    
+        
     @visibleTreasures.collect{ |a| a.type}.include?(type)
 
+  end
+  
+  def getOponentLevel(m)
+    m.getCombatLevel
   end
   
   def dieIfNoTreasures
@@ -161,13 +196,16 @@ class Player
     dice = Dice.instance
     n = dice.nextNumber
     
-    level = !canISteal && n < 3 ? m.getCombatLevel+@enemy.getCombatLevel : m.getCombatLevel
+    level = getOponentLevel(m) +  (!canISteal && n < 3 ? @enemy.getCombatLevel : 0)
     
     if getCombatLevel <= level then
       
       applyBadConsequence(m)
       
+      return CombatResult::LOSEANDCONVERT if shouldConvert
+      
       return CombatResult::LOSE
+      
     end
     
     applyPrize(m)
@@ -243,6 +281,7 @@ class Player
     t = @hiddenTreasures[rand(@hiddenTreasures.size)]
     discardHiddenTreasure(t)
     return t
+    
   end
   
   def initTreasures

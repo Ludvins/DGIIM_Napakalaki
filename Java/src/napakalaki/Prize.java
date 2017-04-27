@@ -23,7 +23,7 @@ public class Prize {
 
     @Override
     public String toString() {
-        return "Prize{" + "treasures=" + treasures + ", levels=" + levels + '}';
+        return "\n\tTreasures: " + treasures + "\n\tLevels: " + levels;
     }
     
     

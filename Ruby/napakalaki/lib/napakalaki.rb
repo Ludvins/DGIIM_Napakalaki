@@ -10,6 +10,8 @@ require_relative 'monster.rb'
 require_relative 'treasure.rb'
 require_relative 'player.rb'
 require_relative 'card_dealer.rb'
+require_relative 'cultist.rb'
+require_relative 'cultist_player.rb'
 require "singleton"
 
 class Napakalaki
@@ -29,17 +31,10 @@ class Napakalaki
   def nextPlayer
     
     if @currentPlayer == nil
-      @currentPlayer = @players[rand(@players.size)]
+      @currentPlayer = rand(@players.size)
     else 
       
-      if @players.index(@currentPlayer) == @players.size - 1
-        
-        @currentPlayer = @players[0]
-        
-      else
-        
-        @currentPlayer = @players[@players.index(@currentPlayer) + 1]
-      end
+      @currentPlayer = (@currentPlayer + 1)% @players.size
       
     end
     
@@ -53,10 +48,8 @@ class Napakalaki
       return true
     end
     
-    return @currentPlayer.validState
+    return @players[@currentPlayer].validState
 
-    
-    return ret
   end
   
   def setEnemies
@@ -82,13 +75,31 @@ class Napakalaki
   public
   
   def developCombat
-    @currentPlayer.combat(@currentMonster)
+    
+    result = @players[@currentPlayer].combat(@currentMonster)
+    
+    if result == CombatResult::LOSEANDCONVERT
+      
+      cultist = CultistPlayer.new(@players[@currentPlayer], @dealer.nextCultist)
+      
+      @players.each do |p|
+        
+        p.setEnemy(cultist) if p.getEnemy == @players[@currentPlayer]
+        
+      end
+      
+      @players[@currentPlayer] = cultist
+
+    end
+  
+    return result
+    
   end
   
   def discardVisibleTreasures(treasures)
     
     treasures.each do |t|
-      @currentPlayer.discardVisibleTreasure(t)
+      @players[@currentPlayer].discardVisibleTreasure(t)
     end
     
   end
@@ -96,7 +107,7 @@ class Napakalaki
   def discardHiddenTreasures(treasures)
     
     treasures.each do |t|
-      @currentPlayer.discardHiddenTreasure(t)
+      @players[@currentPlayer].discardHiddenTreasure(t)
     end
   end
   
@@ -104,7 +115,7 @@ class Napakalaki
     
     treasures.each do |t|
       
-      @currentPlayer.makeTreasureVisible(t)
+      @players[@currentPlayer].makeTreasureVisible(t)
     end
     
   end
@@ -124,7 +135,7 @@ class Napakalaki
   end
   
   def getCurrentPlayer
-    @currentPlayer
+    @players[@currentPlayer]
   end
   
   def getCurrentMonster
@@ -139,8 +150,8 @@ class Napakalaki
        @currentMonster = @dealer.nextMonster
        nextPlayer
 
-      if @currentPlayer.isDead then
-        @currentPlayer.initTreasures
+      if @players[@currentPlayer].isDead then
+        @players[@currentPlayer].initTreasures
       end
      end
     return ret
