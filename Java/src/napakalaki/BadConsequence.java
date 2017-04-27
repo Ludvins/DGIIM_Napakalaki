@@ -77,7 +77,7 @@ public class BadConsequence {
         
     
     public boolean isEmpty () {
-       return this.levels == 0 && this.death == false && this.nHiddenTreasures == 0 && this.nVisibleTreasures == 0 && this.specificHiddenTreasures.isEmpty() && this.specificVisibleTreasures.isEmpty();            
+       return this.nHiddenTreasures == 0 && this.nVisibleTreasures == 0 && this.specificHiddenTreasures.isEmpty() && this.specificVisibleTreasures.isEmpty();            
     }
    
     public void substractVisibleTreasure(Treasure t){
