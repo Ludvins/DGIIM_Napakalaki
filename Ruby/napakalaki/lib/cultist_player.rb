@@ -28,7 +28,7 @@ class CultistPlayer < Player
   
   def getCombatLevel
     
-    (super * 0.7).to_i + (@cultistCard.getGainedBonus * @@totalCultistsPlayers)
+    (super * 1.7).to_i + (@cultistCard.getGainedBonus * @@totalCultistsPlayers)
     
   end
   

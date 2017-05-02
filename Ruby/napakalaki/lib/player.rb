@@ -5,6 +5,9 @@
 module NapakalakiGame
 
 require_relative 'bad_consequence.rb'
+require_relative "specific_bad_consequence.rb"
+require_relative "numeric_bad_consequence.rb"
+require_relative "death_bad_consequence.rb"
 require_relative 'prize.rb'
 require_relative 'monster.rb'
 require_relative 'treasure.rb'
