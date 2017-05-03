@@ -14,20 +14,33 @@ import java.util.stream.Collectors;
 
 public class Player {
     
-    private final String name;
-    private int level = 1;
-    private boolean dead = true; 
-    private boolean canISteal = true;
-    private ArrayList<Treasure> hiddenTreasures = new ArrayList();
-    private ArrayList<Treasure> visibleTreasures = new ArrayList(); 
-    private BadConsequence pendingBC;
-    private Player enemy;
+    protected String name;
+    protected int level = 1;
+    protected boolean dead = true; 
+    protected boolean canISteal = true;
+    protected ArrayList<Treasure> hiddenTreasures = new ArrayList();
+    protected ArrayList<Treasure> visibleTreasures = new ArrayList(); 
+    protected BadConsequence pendingBC;
+    protected Player enemy;
   
     
     
     public Player (String name){
         
         this.name = name;
+    }
+    
+    public Player(Player p){
+        
+        this.name = p.name;
+        this.level = p.level;
+        this.dead = p.dead;
+        this.canISteal = p.canISteal;
+        this.hiddenTreasures = p.hiddenTreasures;
+        this.visibleTreasures = p.visibleTreasures;
+        this.pendingBC = p.pendingBC;
+        this.enemy = p.enemy;
+
     }
     
     public String getName() {
@@ -50,6 +63,10 @@ public class Player {
 
     }
     
+    public Player getEnemy(){
+        return enemy;
+    }
+    
     private void incrementLevels(int l){
         
         this.level += l;
@@ -59,6 +76,13 @@ public class Player {
         
         this.level = this.level <= l ? 1 : this.level-l;
 
+    }
+    
+    public boolean shouldConvert(){
+        
+        Dice dice = Dice.getInstance();
+        return dice.nextNumber() == 6;
+        
     }
     
     private void setPendingBadconsequence (BadConsequence r){
@@ -142,11 +166,23 @@ public class Player {
         return visibleTreasures;
     }
     
+    protected int getOponentLevel(Monster m){
+        
+        return m.getCombatLevel();
+    }
+    
     public CombatResult combat(Monster m) {
         
-        if (this.getCombatLevel() <= m.getCombatLevel()){
+        Dice dice = Dice.getInstance();
+        int n = dice.nextNumber();
+        
+        int level = getOponentLevel(m) + (!canISteal() && n < 3 ? this.enemy.getCombatLevel() : 0);
+        
+        if (this.getCombatLevel() <= level){
             
             this.applyBadConsequence(m);
+            
+            if (shouldConvert()) return CombatResult.LOSEANDCONVERT;
             
             return CombatResult.LOSE;
         }

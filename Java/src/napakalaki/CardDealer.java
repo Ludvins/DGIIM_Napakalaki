@@ -16,10 +16,10 @@ public class CardDealer {
     private ArrayList<Monster> unusedMonsters;
     private ArrayList<Treasure> usedTreasures;
     private ArrayList<Treasure> unusedTreasures;
+    private ArrayList<Cultist> unusedCultists;
+    private ArrayList<Cultist> usedCultists;
     
-    private CardDealer() {
-        
-    }
+    private CardDealer() {};
     
     public static CardDealer getInstance() {
         
@@ -29,6 +29,20 @@ public class CardDealer {
         return instance;
 }
     
+    
+    private void initCultistsCardDeck() {
+        
+        unusedCultists = new ArrayList();
+        usedCultists = new ArrayList();
+        
+        unusedCultists.add(new Cultist(1));
+        unusedCultists.add(new Cultist(1));
+        unusedCultists.add(new Cultist(1));
+        unusedCultists.add(new Cultist(1));
+        unusedCultists.add(new Cultist(2));
+        unusedCultists.add(new Cultist(2));
+        
+    }
     
     private void initTreasureCardDeck () {
         
@@ -80,88 +94,119 @@ public class CardDealer {
         usedMonsters = new ArrayList();
         
  
-        BadConsequence badConsequence = new BadConsequence("Estos monstruos resultan bastante superficiales y te abren mortalmente. Estás muerto.", true);
+        DeathBadConsequence badConsequence = new DeathBadConsequence("Estos monstruos resultan bastante superficiales y te abren mortalmente. Estás muerto.");
         Prize prize = new Prize(2, 1);
         unusedMonsters.add(new Monster("Los hondos", 8, prize, badConsequence));
         
         
-        badConsequence = new BadConsequence("La familia te atrapa. Estás muerto.", true);
+        badConsequence = new DeathBadConsequence("La familia te atrapa. Estás muerto.");
         prize = new Prize(3, 1);
         unusedMonsters.add(new Monster("Familia feliz", 1, prize, badConsequence));
         
 
-        badConsequence = new BadConsequence("No le hace gracia que pronuncien mal su nombre. Estás muerto.", true);
+        badConsequence = new DeathBadConsequence("No le hace gracia que pronuncien mal su nombre. Estás muerto.");
         prize = new Prize(3, 1);
         unusedMonsters.add(new Monster("Yskhtihyssg-Goth", 14, prize, badConsequence));
 
         
-        badConsequence = new BadConsequence("Te faltan manos para tanta cabeza. Pierdes 3 niveles y tus tesoros visibles de las manos", 3,
+        SpecificBadConsequence badConsequence2 = new SpecificBadConsequence("Te faltan manos para tanta cabeza. Pierdes 3 niveles y tus tesoros visibles de las manos", 3,
         new ArrayList(Arrays.asList(TreasureKind.BOTHHANDS, TreasureKind.ONEHAND, TreasureKind.ONEHAND)), new ArrayList(Arrays.asList()));
         prize = new Prize(2, 1);
-        unusedMonsters.add(new Monster("Bicéfalo", 21, prize, badConsequence));
+        unusedMonsters.add(new Monster("Bicéfalo", 21, prize, badConsequence2));
 
-        badConsequence = new BadConsequence("Pierdes tu armadura visible y otra oculta", 0, 1, 1);
+        badConsequence2 = new SpecificBadConsequence("Pierdes tu armadura visible y otra oculta", 0, new ArrayList(Arrays.asList(TreasureKind.ARMOR)), new ArrayList(Arrays.asList(TreasureKind.ARMOR)));
         prize = new Prize(2, 1);
-        unusedMonsters.add(new Monster("3 Byakhees de bonanza", 8, prize, badConsequence));
+        unusedMonsters.add(new Monster("3 Byakhees de bonanza", 8, prize, badConsequence2));
 
-        badConsequence = new BadConsequence("Embobados con el lindo primigenio te descargas de tu casco visible", 0, new ArrayList(Arrays.asList(TreasureKind.HELMET)), new ArrayList(Arrays.asList()));
+        badConsequence2 = new SpecificBadConsequence("Embobados con el lindo primigenio te descargas de tu casco visible", 0, new ArrayList(Arrays.asList(TreasureKind.HELMET)), new ArrayList(Arrays.asList()));
         prize = new Prize(1, 1);
-        unusedMonsters.add(new Monster("Tenochtitlan", 2, prize, badConsequence));
+        unusedMonsters.add(new Monster("Tenochtitlan", 2, prize, badConsequence2));
 
-        badConsequence = new BadConsequence("El primordial bostezo contagioso. Pierdes el calzado visible.", 0,
+        badConsequence2 = new SpecificBadConsequence("El primordial bostezo contagioso. Pierdes el calzado visible.", 0,
                 new ArrayList(Arrays.asList(TreasureKind.SHOES)), new ArrayList(Arrays.asList()));
         prize = new Prize(1, 1);
-        unusedMonsters.add(new Monster("El sopor de Dunwich", 2, prize, badConsequence));
+        unusedMonsters.add(new Monster("El sopor de Dunwich", 2, prize, badConsequence2));
 
-        badConsequence = new BadConsequence("Te atrapan para llevarte de fiesta y dejan caer en mitad del vuelo. Descarta 1 mano visible y 1 mano oculta.", 0,
+        badConsequence2 = new SpecificBadConsequence("Te atrapan para llevarte de fiesta y dejan caer en mitad del vuelo. Descarta 1 mano visible y 1 mano oculta.", 0,
                 new ArrayList(Arrays.asList(TreasureKind.ONEHAND)), new ArrayList(Arrays.asList(TreasureKind.ONEHAND)));
         prize = new Prize(4, 1);
-        unusedMonsters.add(new Monster("Demonios de Magaluf", 2, prize, badConsequence));
+        unusedMonsters.add(new Monster("Demonios de Magaluf", 2, prize, badConsequence2));
 
-        badConsequence = new BadConsequence("Pierdes todos tus tesoros visibles", 0, 6, 0);
+        NumericBadConsequence badConsequence3 = new NumericBadConsequence("Pierdes todos tus tesoros visibles", 0, 6, 0);
         prize = new Prize(3, 1);
-        unusedMonsters.add(new Monster("El gorrón en el umbral", 13, prize, badConsequence));
+        unusedMonsters.add(new Monster("El gorrón en el umbral", 13, prize, badConsequence3));
 
-        badConsequence = new BadConsequence("Pierdes la armadura visible.", 0, new ArrayList(Arrays.asList(TreasureKind.ARMOR)), new ArrayList(Arrays.asList()));
+        badConsequence2 = new SpecificBadConsequence("Pierdes la armadura visible.", 0, new ArrayList(Arrays.asList(TreasureKind.ARMOR)), new ArrayList(Arrays.asList()));
         prize = new Prize(2, 1);
-        unusedMonsters.add(new Monster("H.P. Munchcraft", 6, prize, badConsequence));
+        unusedMonsters.add(new Monster("H.P. Munchcraft", 6, prize, badConsequence2));
 
-        badConsequence = new BadConsequence("Sientes bichos bajo la ropa. Descarta la armadura visible.", 0, new ArrayList(Arrays.asList(TreasureKind.ARMOR)), new ArrayList(Arrays.asList()));
+        badConsequence2 = new SpecificBadConsequence("Sientes bichos bajo la ropa. Descarta la armadura visible.", 0, new ArrayList(Arrays.asList(TreasureKind.ARMOR)), new ArrayList(Arrays.asList()));
         prize = new Prize(1, 1);
-        unusedMonsters.add(new Monster("Necrófago", 13, prize, badConsequence));
+        unusedMonsters.add(new Monster("Necrófago", 13, prize, badConsequence2));
 
-        badConsequence = new BadConsequence("Pierdes 5 niveles y 3 tesoros visibles", 5, 3, 0);
+        badConsequence3 = new NumericBadConsequence("Pierdes 5 niveles y 3 tesoros visibles", 5, 3, 0);
         prize = new Prize(3, 2);
-        unusedMonsters.add(new Monster("El rey de rosado", 11, prize, badConsequence));
+        unusedMonsters.add(new Monster("El rey de rosado", 11, prize, badConsequence3));
 
-        badConsequence = new BadConsequence("Toses los pulmones y pierdes 2 niveles", 2, 0, 0);
+        badConsequence3 = new NumericBadConsequence("Toses los pulmones y pierdes 2 niveles", 2, 0, 0);
         prize = new Prize(1, 1);
-        unusedMonsters.add(new Monster("Flecher", 2, prize, badConsequence));
+        unusedMonsters.add(new Monster("Flecher", 2, prize, badConsequence3));
 
-        badConsequence = new BadConsequence("Pierdes 2 niveles y 2 tesoros ocultos", 2, 0, 2);
+        badConsequence3 = new NumericBadConsequence("Pierdes 2 niveles y 2 tesoros ocultos", 2, 0, 2);
         prize = new Prize(2, 1);
-        unusedMonsters.add(new Monster("Semillas Cthulhu", 4, prize, badConsequence));
+        unusedMonsters.add(new Monster("Semillas Cthulhu", 4, prize, badConsequence3));
 
-        badConsequence = new BadConsequence("Te intentas escapar. Pierdes una mano visible.", 0, new ArrayList(Arrays.asList(TreasureKind.ONEHAND)), new ArrayList(Arrays.asList()));
+        badConsequence2 = new SpecificBadConsequence("Te intentas escapar. Pierdes una mano visible.", 0, new ArrayList(Arrays.asList(TreasureKind.ONEHAND)), new ArrayList(Arrays.asList()));
         prize = new Prize(2, 1);
-        unusedMonsters.add(new Monster("Dameargo", 1, prize, badConsequence));
+        unusedMonsters.add(new Monster("Dameargo", 1, prize, badConsequence2));
 
-        badConsequence = new BadConsequence("Da mucho asquito. Pierdes 3 niveles", 3, 0, 0);
+        badConsequence3 = new NumericBadConsequence("Da mucho asquito. Pierdes 3 niveles", 3, 0, 0);
         prize = new Prize(2, 1);
-        unusedMonsters.add(new Monster("Pollipolipo volante", 3, prize, badConsequence));
+        unusedMonsters.add(new Monster("Pollipolipo volante", 3, prize, badConsequence3));
 
-        badConsequence = new BadConsequence("La quinta directiva primaria te obliga a perder 2 niveles y un tesoro 2 manos visible", 2,
+        badConsequence2 = new SpecificBadConsequence("La quinta directiva primaria te obliga a perder 2 niveles y un tesoro 2 manos visible", 2,
                 new ArrayList(Arrays.asList(TreasureKind.BOTHHANDS)), new ArrayList(Arrays.asList()));
         prize = new Prize(2, 1);
-        unusedMonsters.add(new Monster("Roboggoth", 8, prize, badConsequence));
+        unusedMonsters.add(new Monster("Roboggoth", 8, prize, badConsequence2));
 
-        badConsequence = new BadConsequence("Te asusta en la noche. Pierdes un casco visible.", 0, new ArrayList(Arrays.asList(TreasureKind.HELMET)), new ArrayList(Arrays.asList()));
+        badConsequence2 = new SpecificBadConsequence("Te asusta en la noche. Pierdes un casco visible.", 0, new ArrayList(Arrays.asList(TreasureKind.HELMET)), new ArrayList(Arrays.asList()));
         prize = new Prize(1, 1);
-        unusedMonsters.add(new Monster("El espia sordo", 5, prize, badConsequence));
+        unusedMonsters.add(new Monster("El espia sordo", 5, prize, badConsequence2));
 
-        badConsequence = new BadConsequence("Menudo susto te llevas. Pierdes 2 niveles y 5 tesoros visibles", 2, 5, 0);
+        badConsequence3 = new NumericBadConsequence("Menudo susto te llevas. Pierdes 2 niveles y 5 tesoros visibles", 2, 5, 0);
         prize = new Prize(2, 1);
-        unusedMonsters.add(new Monster("Tongue", 19, prize, badConsequence));
+        unusedMonsters.add(new Monster("Tongue", 19, prize, badConsequence3));
+        
+        
+        badConsequence2 = new SpecificBadConsequence("Pierdes 1 mano visible", 0, new ArrayList(Arrays.asList(TreasureKind.ONEHAND)), new ArrayList(Arrays.asList()));
+        prize = new Prize(3,1);
+        unusedMonsters.add(new Monster("El mal indecible impronunciable", 10, prize, badConsequence2, -2));
+        
+        badConsequence3 = new NumericBadConsequence("Pierdes tus tesoros visibles. Jajaja", 0, 5, 0);
+        prize = new Prize(3,1);
+        unusedMonsters.add(new Monster("Testigos oculares", 6, prize, badConsequence3, 2));
+        
+        badConsequence = new DeathBadConsequence("Hoy no es tu dia de suerte. Mueres.");
+        prize = new Prize(2,5);
+        unusedMonsters.add(new Monster("El gran cthulhu", 10, prize, badConsequence, 4));
+        
+        badConsequence3 = new NumericBadConsequence("Tu gobierno te recorta 2 niveles.", 2, 0, 0);
+        prize = new Prize(2,1);
+        unusedMonsters.add(new Monster("Serpiente Politico", 8, prize, badConsequence3, -2));
+        
+        badConsequence2 = new SpecificBadConsequence("Pierdes tu casco y tu armadura visible. Pierdes tus manos ocultas.", 0, new ArrayList(Arrays.asList(TreasureKind.HELMET, TreasureKind.ARMOR)), new ArrayList(Arrays.asList(TreasureKind.BOTHHANDS, TreasureKind.ONEHAND, TreasureKind.ONEHAND)));
+        prize = new Prize(1,1);
+        unusedMonsters.add(new Monster("Felpuggoth", 2, prize, badConsequence2, 5));
+        
+        badConsequence3 = new NumericBadConsequence("Pierdes 2 niveles",2, 0, 0);
+        prize = new Prize(4,2);
+        unusedMonsters.add(new Monster("Shoggoth", 16, prize, badConsequence3, -4));
+        
+        badConsequence3 = new NumericBadConsequence("Pintalabios negro. Pierdes 2 niveles",2, 0, 0);
+        prize = new Prize(1,1);
+        unusedMonsters.add(new Monster("LoLitagooth", 2, prize, badConsequence3, +3));
+        
+        
     }
     
     private void shuffleMonsters() {
@@ -174,6 +219,11 @@ public class CardDealer {
         
         Collections.shuffle(this.unusedTreasures);
       
+    }
+    
+    private void shuffleCultists() {
+        
+        Collections.shuffle(this.unusedCultists);
     }
     
     public Treasure nextTreasure(){
@@ -222,6 +272,15 @@ public class CardDealer {
         return m;
     }
     
+    public Cultist nextCultist(){
+        
+        Cultist c = unusedCultists.remove(0);
+        
+        this.usedCultists.add(c);
+        
+        return c;
+    }
+    
     public void giveTreasureBack(Treasure t){
         
         this.usedTreasures.add(t);
@@ -241,5 +300,8 @@ public class CardDealer {
         
         this.initMonsterCardDeck();
         this.shuffleMonsters();
+        
+        this.initCultistsCardDeck();
+        this.shuffleCultists();
     }
 }

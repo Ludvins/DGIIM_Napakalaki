@@ -6,15 +6,13 @@ module NapakalakiGame
 
 class SpecificBadConsequence < BadConsequence
   
-  def initialize(aText, nLevels, specificVisibleTreasures, specificHiddenTreasures)
+  attr_reader :specificVisibleTreasures, :specificHiddenTreasures
+  
+  def initialize(text , nLevels, specificVisibleTreasures, specificHiddenTreasures)
     
-    @aText = aText
-    @nLevels = nLevels
-    @nVisibleTreasures = 0
-    @nHiddenTreasures = 0
+    super(text, nLevels)
     @specificVisibleTreasures = specificVisibleTreasures
     @specificHiddenTreasures = specificHiddenTreasures
-    @death = false
     
   end
   
@@ -23,6 +21,20 @@ class SpecificBadConsequence < BadConsequence
   def empty?
     @specificVisibleTreasures.empty? && @specificHiddenTreasures.empty?
   end
+
+  def substractVisibleTreasure(t)
+    @specificVisibleTreasures.delete(t.type)
+  end
+  
+  def substractHiddenTreasure(t)
+    @specificHiddenTreasures.delete(t.type)
+  end
+  
+  def to_s
+     "\n\tText: #{@aText} \n\tLevels lost: #{@nLevels} \n\tSpecific visible treasures lost: #{@specificVisibleTreasures} \n\tSpecific hidden treasures lost: #{@specificHiddenTreasures} \n\tDeath: #{@death}"
+  end
+  
+
   
   def intersection(array1, array2)
     

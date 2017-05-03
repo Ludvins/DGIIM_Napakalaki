@@ -22,14 +22,9 @@ class DeathBadConsequence < NumericBadConsequence
   
   public_class_method :new
   
-  def empty?
-    @death == false
-  end 
-  
-  
   def adjustToFitTreasureList(vTreasures, hTreasures)
     
-    return BadConsequence.newLevelNumberOfTreasures(@aText, 0, vTreasures.size, hTreasures.size)
+    return NumericBadConsequence.new(@aText, 0, vTreasures.size, hTreasures.size)
  
   end
 end

@@ -48,6 +48,10 @@ class CultistPlayer < Player
     
   end
   
+  def self.getTotalCultistsPlayers
+    @@totalCultistsPlayers
+  end
+  
   def canYouGiveMeATreasure
     @visibleTreasures.any?
   end

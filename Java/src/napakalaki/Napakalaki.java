@@ -74,7 +74,18 @@ public class Napakalaki {
         
         CombatResult combat = this.players.get(currentPlayer).combat(this.currentMonster);
         
-        // Sectario
+        if (combat == CombatResult.LOSEANDCONVERT){
+            CultistPlayer c = new CultistPlayer(this.players.get(this.currentPlayer), this.cardDealer.nextCultist());
+            
+            for (Player p : this.players){
+                
+                if (p.getEnemy() == players.get(currentPlayer)) p.setEnemy(c);
+                
+            }
+            
+            players.set(currentPlayer, c);
+            
+        }
         
         return combat;
     }

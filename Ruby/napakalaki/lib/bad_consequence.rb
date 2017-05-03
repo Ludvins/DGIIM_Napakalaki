@@ -9,38 +9,29 @@ require_relative 'treasure_kind.rb'
 class BadConsequence
   
   
-  attr_reader :aText, :nLevels, :nVisibleTreasures, :nHiddenTreasures, :death, :specificVisibleTreasures, :specificHiddenTreasures
+  attr_reader :aText, :nLevels, :death
   
   
-  def initialize(aText, nLevels = 0, nVisibleTreasures = 0, nHiddenTreasures = 0, specificVisibleTreasures = Array.new, specificHiddenTreasures = Array.new, death = false)
+  def initialize(aText, nLevels, death = false)
     @aText = aText
-    @nLevels = nLevels
-    @nVisibleTreasures = nVisibleTreasures
-    @nHiddenTreasures = nHiddenTreasures
-    @specificVisibleTreasures = specificVisibleTreasures
-    @specificHiddenTreasures = specificHiddenTreasures
+    @nLevels = nLevels 
     @death = death
   end
   
   private_class_method:new
 
   def to_s
-    "\n\tText: #{@aText} \n\tLevels lost: #{@nLevels} \n\tVisible treasures lost: #{@nVisibleTreasures} \n\tHidden treasures lost: #{@nHiddenTreasures} \n\tSpecific visible treasures lost: #{@specificVisibleTreasures} \n\tSpecific hidden treasures lost: #{@specificHiddenTreasures} \n\tDeath: #{@death}"
   end
   
-  
   def substractVisibleTreasure(t)
-    if @specificVisibleTreasures.delete(t.type).nil? && @nVisibleTreasures > 0 then
-         @nVisibleTreasures -= 1
-    end
-
   end
   
   def substractHiddenTreasure(t)
-    if @specificHiddenTreasures.delete(t.type).nil? && @nHiddenTreasures > 0 then
-           @nHiddenTreasures -= 1
-    end
   end
+  
+ def adjustToFitTreasureList(vTreasures, hTreasures)
+   
+ end
   
 end
 end
