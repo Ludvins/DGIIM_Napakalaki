@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 
 /**
@@ -297,11 +298,14 @@ public class Player {
     
     public void discardAllTreasures(){
         
-        for(Treasure t : this.visibleTreasures){
+        ArrayList<Treasure> visTreasures = new ArrayList(visibleTreasures);
+        ArrayList<Treasure> hidTreasures = new ArrayList(hiddenTreasures);
+
+        for(Treasure t : visTreasures){
             this.discardVisibleTreasure(t);
         }
         
-        for(Treasure t : this.hiddenTreasures){
+        for(Treasure t : hidTreasures){
             this.discardHiddenTreasure(t);
         }
     }
