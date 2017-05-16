@@ -52,7 +52,7 @@ class Monster
   end
   
   def to_s
-    "Monster name: #{@name} \nMonster level: #{@combatLevel} \nPrize: #{@prize} \nBadconsequence: #{@badConsequence}"
+    "Monster name: #{@name} \nMonster level: #{@combatLevel} \nMonster level against Cultist: #{getCombatLevelAgainstCultistPlayer}\nPrize: #{@prize} \nBadconsequence: #{@badConsequence}"
   end
 end
 end

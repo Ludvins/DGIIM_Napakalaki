@@ -71,7 +71,6 @@ class Player
     
     dice = Dice.instance
     n = dice.nextNumber
-    
     return n == 6
     
   end
