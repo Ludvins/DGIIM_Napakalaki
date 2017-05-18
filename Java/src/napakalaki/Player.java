@@ -4,9 +4,8 @@ package napakalaki;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.stream.Collectors;
+import GUI.Dice;
 
 /**
  *
@@ -58,10 +57,14 @@ public class Player {
         return canISteal;
     }
     
-    protected int getCombatLevel() {
+    public int getCombatLevel() {
 
         return this.visibleTreasures.stream().map(Treasure::getBonus).reduce(this.level, Integer::sum);
 
+    }
+    
+    public BadConsequence getPendingBC(){
+        return this.pendingBC;
     }
     
     public Player getEnemy(){

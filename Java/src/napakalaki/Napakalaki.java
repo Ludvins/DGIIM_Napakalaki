@@ -46,7 +46,7 @@ public class Napakalaki {
        this.currentPlayer = (this.currentPlayer + 1) % this.players.size();
     }
     
-    private boolean nextTurnIsAllowed(){
+    public boolean nextTurnIsAllowed(){
  
         return this.players.get(currentPlayer).ValidState();
 
