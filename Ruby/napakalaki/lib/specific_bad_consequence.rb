@@ -23,11 +23,11 @@ class SpecificBadConsequence < BadConsequence
   end
 
   def substractVisibleTreasure(t)
-    @specificVisibleTreasures.delete(t.type)
+    @specificVisibleTreasures.delete_at(@specificVisibleTreasures.index(t.type))
   end
   
   def substractHiddenTreasure(t)
-    @specificHiddenTreasures.delete(t.type)
+    @specificHiddenTreasures.delete_at(@specificHiddenTreasures.index(t.type))
   end
   
   def to_s
@@ -46,6 +46,7 @@ class SpecificBadConsequence < BadConsequence
 
     vTreasures = vTreasures.collect{ |a| a.type}
     hTreasures = hTreasures.collect{ |a| a.type}
+    
     
     tVisible = intersection(vTreasures, @specificVisibleTreasures)
     tHidden = intersection(hTreasures, @specificHiddenTreasures)

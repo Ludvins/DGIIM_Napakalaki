@@ -12,26 +12,12 @@ class BadConsequence
   attr_reader :aText, :nLevels, :death
   
   
-  def initialize(aText, nLevels, death = false)
+  def initialize(aText, nLevels)
     @aText = aText
     @nLevels = nLevels 
-    @death = death
   end
   
   private_class_method:new
 
-  def to_s
-  end
-  
-  def substractVisibleTreasure(t)
-  end
-  
-  def substractHiddenTreasure(t)
-  end
-  
- def adjustToFitTreasureList(vTreasures, hTreasures)
-   
- end
-  
 end
 end

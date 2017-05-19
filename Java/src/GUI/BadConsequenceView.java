@@ -22,7 +22,7 @@ public class BadConsequenceView extends javax.swing.JPanel {
     
     public void setBadConsequence(BadConsequence b){
         bcModel = b;
-        this.text.setText(b.getText());
+        this.text.setText("<html>"+ b.getText() + "</html>");
         repaint();
     }
     /**

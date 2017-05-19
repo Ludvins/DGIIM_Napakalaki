@@ -21,7 +21,6 @@ public class NumericBadConsequence extends BadConsequence{
         this.levels = levels;
         this.nVisibleTreasures = nVisible;
         this.nHiddenTreasures = nHidden;
-        this.death = false;
     }
     
     @Override
@@ -56,6 +55,6 @@ public class NumericBadConsequence extends BadConsequence{
 
     @Override
     public String toString() {
-        return "\n\tText: " + text + "\n\tLevels: " + levels + "\n\tnVisibleTreasures: " + nVisibleTreasures + "\n\tnHiddenTreasures: " + nHiddenTreasures + "\n\tDeath: " + death;
+        return "\n\tText: " + text + "\n\tLevels: " + levels + "\n\tnVisibleTreasures: " + nVisibleTreasures + "\n\tnHiddenTreasures: " + nHiddenTreasures;
     }
 }

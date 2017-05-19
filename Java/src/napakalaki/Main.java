@@ -32,7 +32,6 @@ public class Main  {
         napakalakiView.setVisible(true);
 
                 
-                
     }
     
 }

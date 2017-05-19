@@ -100,7 +100,6 @@ public class TreasureView extends javax.swing.JPanel {
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         selected = !selected;
-        System.out.println(selected);
         if (selected) setBackground(new java.awt.Color(100, 90, 0));
         else setBackground(new java.awt.Color(100, 140, 0));
         this.repaint();

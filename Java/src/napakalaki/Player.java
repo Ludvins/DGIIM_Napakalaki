@@ -85,7 +85,7 @@ public class Player {
     public boolean shouldConvert(){
         
         Dice dice = Dice.getInstance();
-        return dice.nextNumber() == 6;
+        return dice.nextNumber("Has perdido el combate.","En caso de sacar un 6, te convertiras en Sectario.") == 6;
         
     }
     
@@ -110,8 +110,6 @@ public class Player {
     private void applyBadConsequence (Monster m){
         
         this.decrementLevels(m.getBadconsequence().getLevels());
-        
-        if (m.getBadconsequence().isDeath()) this.dead = true;
         
         this.setPendingBadconsequence(m.getBadconsequence().adjustToFitTreasureLists(this.visibleTreasures, this.hiddenTreasures));
               
@@ -178,11 +176,10 @@ public class Player {
     public CombatResult combat(Monster m) {
         
         Dice dice = Dice.getInstance();
-        int n = dice.nextNumber();
         
-        int level = getOponentLevel(m) + (!canISteal() && n < 3 ? this.enemy.getCombatLevel() : 0);
+        int lv = getOponentLevel(m) + (!canISteal() && dice.nextNumber("Determinará si se suma el nivel del enemigo.", "Esto ocurrirá en caso de sacar 1 o 2.") < 3 ? this.enemy.getCombatLevel() : 0);
         
-        if (this.getCombatLevel() <= level){
+        if (this.getCombatLevel() <= lv){
             
             this.applyBadConsequence(m);
             
@@ -255,7 +252,8 @@ public class Player {
         
         Treasure treasure;
         
-        int number = dice.nextNumber();
+        int number = dice.nextNumber("INICIALIZACIÓN DE TESOROS"," ");
+        
         
         treasure = dealer.nextTreasure();
         this.hiddenTreasures.add(treasure);   
@@ -265,8 +263,7 @@ public class Player {
             treasure = dealer.nextTreasure();
             this.hiddenTreasures.add(treasure);
         }
-        
-        else if (number > 1){
+        if (number > 1){
             treasure = dealer.nextTreasure();
             this.hiddenTreasures.add(treasure);
         }

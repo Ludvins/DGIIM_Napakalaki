@@ -10,13 +10,7 @@ class DeathBadConsequence < NumericBadConsequence
   
   def initialize(aText)
     
-    @aText = aText
-    @nLevels = 10
-    @nVisibleTreasures = 5
-    @nHiddenTreasures = 4
-    @specificVisibleTreasures = Array.new
-    @specificHiddenTreasures = Array.new
-    @death = true
+    super(aText, 10, 5, 4)
     
   end
   

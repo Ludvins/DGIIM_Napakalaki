@@ -32,8 +32,16 @@ public class PendingBadConsequenceView extends javax.swing.JPanel {
             jLabel4.setText(Integer.toString(((NumericBadConsequence) b).getnHiddenTreasures()));
         }
         if (b instanceof SpecificBadConsequence){
-            jLabel3.setText(((SpecificBadConsequence) b).getSpecificVisibleTreasures().toString());
-            jLabel4.setText(((SpecificBadConsequence) b).getSpecificHiddenTreasures().toString());
+            if ( ((SpecificBadConsequence) b).getSpecificVisibleTreasures().isEmpty() && ((SpecificBadConsequence) b).getSpecificHiddenTreasures().isEmpty() ){
+                
+                jLabel3.setText("");
+                jLabel4.setText(""); 
+                
+            }else{
+                
+                jLabel3.setText( "<html>" + ((SpecificBadConsequence) b).getSpecificVisibleTreasures().toString()  + "</html>");
+                jLabel4.setText( "<html>" + ((SpecificBadConsequence) b).getSpecificHiddenTreasures().toString()  + "</html>");
+            }
         }
     }
 

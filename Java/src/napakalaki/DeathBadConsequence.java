@@ -7,15 +7,15 @@ package napakalaki;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author Ludvins
- */
+
 public class DeathBadConsequence extends NumericBadConsequence {
     
+    private static final int MAXVISIBLETREASURES = 5;
+    private static final int MAXHIDDENTREASURES = 4;
+    private static final int MAXLEVEL = 10;
+    
     public DeathBadConsequence(String text){
-        super(text, 10, 5, 4);
-        this.death = true;
+        super(text, MAXLEVEL, MAXVISIBLETREASURES, MAXHIDDENTREASURES);
     }
     
     @Override

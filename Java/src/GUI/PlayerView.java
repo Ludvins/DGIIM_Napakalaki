@@ -307,14 +307,10 @@ public class PlayerView extends javax.swing.JPanel {
     private void makeVisibleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeVisibleActionPerformed
        
         ArrayList<Treasure> selHidden = getSelectedTreasures(hiddenTreasures);
-        System.out.println(selHidden);
-        selHidden.toString();
+
         napakalakiModel.makeTreasureVisible(selHidden);
 
         setPlayer(napakalakiModel.getCurrentPlayer());
-
-        this.repaint();
-        
         
     }//GEN-LAST:event_makeVisibleActionPerformed
 
@@ -322,24 +318,21 @@ public class PlayerView extends javax.swing.JPanel {
         
         this.playerModel.stealTreasure();
         setPlayer(napakalakiModel.getCurrentPlayer());
-        this.repaint();
     }//GEN-LAST:event_stealTreasureActionPerformed
 
     private void discardTreasureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discardTreasureActionPerformed
         
         ArrayList<Treasure> selVisible = getSelectedTreasures(visibleTreasures);
-        
-        selVisible.toString();
+
         this.napakalakiModel.discardVisibleTreasures(selVisible);
 
         ArrayList<Treasure> selHidden = getSelectedTreasures(hiddenTreasures);
-        selHidden.toString();
             
         this.napakalakiModel.discardHiddenTreasures(selHidden);
+        
+        this.napakalakiView.check();
 
         setPlayer(napakalakiModel.getCurrentPlayer());
-
-        this.repaint();
 
     }//GEN-LAST:event_discardTreasureActionPerformed
 
@@ -347,9 +340,9 @@ public class PlayerView extends javax.swing.JPanel {
 
         this.playerModel.discardAllTreasures();
         
+        this.napakalakiView.check();
+        
         setPlayer(napakalakiModel.getCurrentPlayer());
-        this.repaint();
-
     }//GEN-LAST:event_discardAllActionPerformed
 
 

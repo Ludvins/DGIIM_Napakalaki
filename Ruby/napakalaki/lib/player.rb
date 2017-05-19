@@ -125,8 +125,6 @@ class Player
   def applyBadConsequence(m)
     
     decrementLevels(m.getBadConsequence.nLevels)
-    
-    @death = true if m.getBadConsequence.death
  
     setPendingBC(m.getBadConsequence.adjustToFitTreasureList(@visibleTreasures, @hiddenTreasures))
     

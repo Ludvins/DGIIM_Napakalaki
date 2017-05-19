@@ -10,13 +10,9 @@ class NumericBadConsequence < BadConsequence
   
   def initialize(aText, nLevels, nVisibleTreasures, nHiddenTreasures)
     
-    @aText = aText
-    @nLevels = nLevels
+    super(aText, nLevels)
     @nVisibleTreasures = nVisibleTreasures
     @nHiddenTreasures = nHiddenTreasures
-    @specificVisibleTreasures = Array.new
-    @specificHiddenTreasures = Array.new
-    @death = false
     
   end
   
