@@ -55,7 +55,7 @@ public class PlayerView extends javax.swing.JPanel {
      */
     public PlayerView() {
         initComponents();
-        this.setBorder(BorderFactory.createTitledBorder("Jugador"));
+        this.setBorder(BorderFactory.createTitledBorder("Player"));
     }
     
     public void setPlayer(Player p){
