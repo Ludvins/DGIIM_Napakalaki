@@ -127,10 +127,17 @@ public class Player {
     
     protected Treasure giveMeATreasure(){
         
-        Random rd = new Random();
-        Treasure t = this.hiddenTreasures.get(rd.nextInt() % this.hiddenTreasures.size());
+        return this.deleteAndReturnRandomIn(hiddenTreasures);
+    }
+    
+    protected Treasure deleteAndReturnRandomIn(ArrayList<Treasure> l){
         
-        this.discardHiddenTreasure(t, false);
+        Random rd = new Random();
+        Treasure t = l.get(rd.nextInt() % l.size());
+        
+        l.remove(t);
+        
+        this.dieIfNoTreasures();
         
         return t;
     }
@@ -205,29 +212,13 @@ public class Player {
             
         }
     }
-    
-    public void discardVisibleTreasure(Treasure t){
-        
-        this.discardVisibleTreasure(t, true);
-    
-    }
-    
-    
+
     public void discardHiddenTreasure(Treasure t){
         
-        this.discardHiddenTreasure(t, true);
-    }
-    
-    //Needed because not all the times you do discard a treasure it goes to the used deck, for example when stolen.
-    public void discardHiddenTreasure(Treasure t, boolean giveBack){
+        CardDealer cd = CardDealer.getInstance();
         
-        if (giveBack){
+        cd.giveTreasureBack(t);
 
-            CardDealer cd = CardDealer.getInstance();
-        
-            cd.giveTreasureBack(t);
-        }
-        
         this.hiddenTreasures.remove(t);
         
         if (this.pendingBC != null && !this.pendingBC.isEmpty()) {
@@ -239,15 +230,12 @@ public class Player {
         this.dieIfNoTreasures();
     }
     
-     public void discardVisibleTreasure(Treasure t, boolean giveBack){
-        
-        if (giveBack){
+     public void discardVisibleTreasure(Treasure t){
 
-            CardDealer cd = CardDealer.getInstance();
+        CardDealer cd = CardDealer.getInstance();
         
-            cd.giveTreasureBack(t);
-        }
-        
+        cd.giveTreasureBack(t);
+                
         this.visibleTreasures.remove(t);
         
         if (this.pendingBC != null && !this.pendingBC.isEmpty()) {
@@ -349,8 +337,5 @@ public class Player {
         return name + " Nivel del jugador: " + level + " Nivel de combate: " + getCombatLevel() + " Enemigo: " + enemy.getName();
     }
 
-    void func(Treasure t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }

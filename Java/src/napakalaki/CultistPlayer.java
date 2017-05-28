@@ -33,12 +33,7 @@ public class CultistPlayer extends Player {
     @Override
     protected Treasure giveMeATreasure(){
         
-        Random rd = new Random();
-        Treasure t = this.visibleTreasures.get(rd.nextInt() % this.visibleTreasures.size());
-        
-        this.discardVisibleTreasure(t, false);
-        
-        return t;
+        return this.deleteAndReturnRandomIn(this.visibleTreasures);
     }
 
     @Override
@@ -54,7 +49,5 @@ public class CultistPlayer extends Player {
     public static int getTotalCultistsPlayers(){
         return totalCultistsPlayers;
     }
-   
-    
-    
+  
 }
