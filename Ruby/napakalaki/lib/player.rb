@@ -232,6 +232,10 @@ class Player
     
     @visibleTreasures -= [t]
     
+    c = CardDealer.instance
+    
+    c.giveTreasureBack(t);
+    
     if @pendingBC != nil && !@pendingBC.empty? then
       
       @pendingBC.substractVisibleTreasure(t)
@@ -245,6 +249,10 @@ class Player
   def discardHiddenTreasure(t)
     
     @hiddenTreasures -= [t]
+    
+    c = CardDealer.instance
+    
+    c.giveTreasureBack(t);
     
     if @pendingBC != nil && !@pendingBC.empty? then
       

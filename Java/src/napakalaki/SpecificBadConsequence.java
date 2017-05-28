@@ -19,8 +19,7 @@ public class SpecificBadConsequence extends BadConsequence {
     
     public SpecificBadConsequence(String _text, int _levels, ArrayList<TreasureKind> _tVisible, ArrayList<TreasureKind> _tHidden){
 
-        text = _text;
-        levels = _levels;
+        super(_text, _levels);
         specificVisibleTreasures = _tVisible;
         specificHiddenTreasures = _tHidden;
         
@@ -54,18 +53,10 @@ public class SpecificBadConsequence extends BadConsequence {
         
         ArrayList <TreasureKind> vt = v.stream().map(a -> a.getType()).collect(Collectors.toCollection(ArrayList::new));
         ArrayList <TreasureKind> ht = h.stream().map(a -> a.getType()).collect(Collectors.toCollection(ArrayList::new));
-        
-        System.out.println(vt);
-        System.out.println(ht);
-        System.out.println(this.specificVisibleTreasures);
-        System.out.println(this.specificHiddenTreasures);
-        
+
         vt.retainAll(this.specificVisibleTreasures);
         ht.retainAll(this.specificHiddenTreasures);
-        
-        System.out.println(vt);
-        System.out.println(ht);
-         
+
         return new SpecificBadConsequence(this.text, 0, vt, ht);
     }
     

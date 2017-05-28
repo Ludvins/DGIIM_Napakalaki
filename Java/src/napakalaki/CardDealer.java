@@ -241,11 +241,7 @@ public class CardDealer {
             
         }
                   
-        Treasure t = this.unusedTreasures.remove(0);
-        
-        this.usedTreasures.add(t);
-        
-        return t;
+        return this.unusedTreasures.remove(0);
         
     }
     

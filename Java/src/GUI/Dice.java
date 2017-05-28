@@ -3,6 +3,7 @@ package GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.Random;
 import javax.swing.Timer;
 
@@ -83,7 +84,7 @@ public class Dice extends javax.swing.JDialog {
     jL_message2 = new javax.swing.JLabel();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-    setTitle("Dado");
+    setTitle("Dice");
     setMinimumSize(new java.awt.Dimension(400, 280));
     setPreferredSize(new java.awt.Dimension(400, 280));
 
@@ -96,6 +97,13 @@ public class Dice extends javax.swing.JDialog {
       public void mouseClicked(java.awt.event.MouseEvent evt) {
         jL_diceMouseClicked(evt);
       }
+    });
+    
+    jL_dice.addKeyListener(new java.awt.event.KeyAdapter() {
+        @Override
+        public void keyPressed(java.awt.event.KeyEvent evt) {
+            jL_diceKeyPressed(evt);
+        }
     });
 
     jL_message1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -157,11 +165,20 @@ public class Dice extends javax.swing.JDialog {
     timerDice.stop();
     jB_OK.setVisible(true);
     pack();
+    jB_OK.requestFocusInWindow();
+    jB_OK.setFocusPainted(false);
   }//GEN-LAST:event_jL_diceMouseClicked
+  
+  //custom
+  private void jL_diceKeyPressed(java.awt.event.KeyEvent evt){
+      if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+          jL_diceMouseClicked(null);
+      }
+  }
 
   private void jB_OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_OKActionPerformed
     this.dispose();
-  }//GEN-LAST:event_jB_OKActionPerformed
+  }//GEN-LAST:event_jB_OKActionPerforme
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton jB_OK;

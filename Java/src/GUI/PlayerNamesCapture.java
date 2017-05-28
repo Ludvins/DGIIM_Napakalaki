@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package GUI;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -57,6 +58,11 @@ public class PlayerNamesCapture extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         jLabel1.setText("Player 1:");
 
@@ -73,6 +79,12 @@ public class PlayerNamesCapture extends javax.swing.JDialog {
         name2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 name2ActionPerformed(evt);
+            }
+        });
+
+        name3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                name3KeyPressed(evt);
             }
         });
 
@@ -155,12 +167,7 @@ public class PlayerNamesCapture extends javax.swing.JDialog {
     }//GEN-LAST:event_CancelActionPerformed
 
     private void PlayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayActionPerformed
-        this.names = new ArrayList();
-        names.add(name1.getText());
-        names.add(name2.getText());
-        names.add(name3.getText());
-        
-        this.dispose();
+        this.addAndDispose();
     }//GEN-LAST:event_PlayActionPerformed
 
     private void name1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_name1ActionPerformed
@@ -171,13 +178,29 @@ public class PlayerNamesCapture extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_name2ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+
+    }//GEN-LAST:event_formKeyPressed
+
+    private void name3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_name3KeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+             this.addAndDispose();
+         }
+    }//GEN-LAST:event_name3KeyPressed
+
         
     public ArrayList<String> getNames() {
         this.setVisible(true);
         return names;
+    }
+    
+    private void addAndDispose(){
+        this.names = new ArrayList();
+        names.add(name1.getText());
+        names.add(name2.getText());
+        names.add(name3.getText());
+        
+        this.dispose();
     }
 
     

@@ -9,9 +9,11 @@ import java.util.ArrayList;
 public abstract class BadConsequence {
     protected String text;
     protected int levels;
-    protected boolean death;
     
-    protected BadConsequence(){ }
+    protected BadConsequence(String text, int levels){
+        this.text = text;
+        this.levels = levels;
+    }
 
     public String getText() {
         return text;
@@ -19,10 +21,6 @@ public abstract class BadConsequence {
 
     public int getLevels() {
         return levels;
-    }
-    
-    public boolean isDeath(){
-        return death;
     }
     
     public abstract boolean isEmpty () ;          

@@ -17,8 +17,8 @@ public class NumericBadConsequence extends BadConsequence{
     protected int nHiddenTreasures;
     
     public NumericBadConsequence(String text, int levels, int nVisible, int nHidden){
-        this.text = text;
-        this.levels = levels;
+        
+        super(text, levels);
         this.nVisibleTreasures = nVisible;
         this.nHiddenTreasures = nHidden;
     }

@@ -28,21 +28,14 @@ public class PendingBadConsequenceView extends javax.swing.JPanel {
     public void setBadConsequence(BadConsequence b){
         bc = b;
         if (b instanceof NumericBadConsequence){
-            jLabel3.setText(Integer.toString(((NumericBadConsequence) b).getnVisibleTreasures()));
-            jLabel4.setText(Integer.toString(((NumericBadConsequence) b).getnHiddenTreasures()));
+            jLabel3.setText( (((NumericBadConsequence) b).getnVisibleTreasures()) == 0 ? "" : Integer.toString(((NumericBadConsequence) b).getnVisibleTreasures()) );
+            jLabel4.setText( (((NumericBadConsequence) b).getnHiddenTreasures()) == 0 ? "" : Integer.toString(((NumericBadConsequence) b).getnHiddenTreasures()) );
         }
         if (b instanceof SpecificBadConsequence){
-            if ( ((SpecificBadConsequence) b).getSpecificVisibleTreasures().isEmpty() && ((SpecificBadConsequence) b).getSpecificHiddenTreasures().isEmpty() ){
-                
-                jLabel3.setText("");
-                jLabel4.setText(""); 
-                
-            }else{
-                
-                jLabel3.setText( "<html>" + ((SpecificBadConsequence) b).getSpecificVisibleTreasures().toString()  + "</html>");
-                jLabel4.setText( "<html>" + ((SpecificBadConsequence) b).getSpecificHiddenTreasures().toString()  + "</html>");
-            }
+            jLabel3.setText(((SpecificBadConsequence) b).getSpecificVisibleTreasures().isEmpty() ? "" : "<html>" + ((SpecificBadConsequence) b).getSpecificVisibleTreasures().toString()  + "</html>");
+            jLabel4.setText(((SpecificBadConsequence) b).getSpecificHiddenTreasures().isEmpty() ? "" : "<html>" + ((SpecificBadConsequence) b).getSpecificHiddenTreasures().toString()  + "</html>");
         }
+        repaint();
     }
 
     /**

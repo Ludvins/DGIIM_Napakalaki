@@ -269,8 +269,6 @@ class CardDealer
     
     t = @unusedTreasures.at(0)
     
-    @usedTreasures << t
-    
     @unusedTreasures.delete(t)
     
     return t

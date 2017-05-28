@@ -54,9 +54,9 @@ public class TreasureView extends javax.swing.JPanel {
         name = new javax.swing.JLabel();
         treasureKind = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(100, 140, 0));
+        setBackground(new java.awt.Color(222, 183, 55));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        setForeground(new java.awt.Color(100, 140, 0));
+        setForeground(new java.awt.Color(222, 183, 55));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
@@ -100,8 +100,8 @@ public class TreasureView extends javax.swing.JPanel {
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         selected = !selected;
-        if (selected) setBackground(new java.awt.Color(100, 90, 0));
-        else setBackground(new java.awt.Color(100, 140, 0));
+        if (selected) setBackground(new java.awt.Color(156, 132, 51));
+        else setBackground(new java.awt.Color(222, 183, 55));
         this.repaint();
     }//GEN-LAST:event_formMouseClicked
 

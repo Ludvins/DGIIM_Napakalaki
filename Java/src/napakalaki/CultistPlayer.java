@@ -1,25 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package napakalaki;
-import java.util.ArrayList;
 import java.util.Random;
 
-/**
- *
- * @author Ludvins
- */
 public class CultistPlayer extends Player {
     
     private static int totalCultistsPlayers = 0;
-    private Cultist myCultistCard;
+    private final Cultist myCultistCard;
     
     public CultistPlayer(Player p, Cultist c){
         
         super(p);
-        
         myCultistCard = c;
         CultistPlayer.totalCultistsPlayers++;
 
@@ -46,11 +36,11 @@ public class CultistPlayer extends Player {
         Random rd = new Random();
         Treasure t = this.visibleTreasures.get(rd.nextInt() % this.visibleTreasures.size());
         
-        this.discardVisibleTreasure(t);
+        this.discardVisibleTreasure(t, false);
         
         return t;
     }
-    
+
     @Override
     protected boolean canYouGiveMeATreasure(){
         return !this.visibleTreasures.isEmpty();

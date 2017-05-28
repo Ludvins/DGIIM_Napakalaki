@@ -210,6 +210,10 @@ public class Player {
     
     public void discardVisibleTreasure(Treasure t){
         
+        CardDealer cd = CardDealer.getInstance();
+        
+        cd.giveTreasureBack(t);
+        
         this.visibleTreasures.remove(t);
         
         if (this.pendingBC != null && !this.pendingBC.isEmpty()) {
@@ -224,6 +228,10 @@ public class Player {
     
     
     public void discardHiddenTreasure(Treasure t){
+        
+        CardDealer cd = CardDealer.getInstance();
+        
+        cd.giveTreasureBack(t);
         
         this.hiddenTreasures.remove(t);
         
@@ -319,6 +327,10 @@ public class Player {
     @Override
     public String toString() {
         return name + " Nivel del jugador: " + level + " Nivel de combate: " + getCombatLevel() + " Enemigo: " + enemy.getName();
+    }
+
+    void func(Treasure t) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
