@@ -78,7 +78,7 @@ public class PlayerView extends javax.swing.JPanel {
         this.showCultist();
         this.enemy.setText(this.playerModel.getEnemy().getName());
         
-        this.stealTreasure.setEnabled(this.playerModel.canISteal());
+        this.stealTreasure.setEnabled(this.playerModel.isAbleToSteal());
         
         repaint();
         revalidate();

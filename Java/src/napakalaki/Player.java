@@ -130,7 +130,7 @@ public class Player {
         Random rd = new Random();
         Treasure t = this.hiddenTreasures.get(rd.nextInt() % this.hiddenTreasures.size());
         
-        this.discardHiddenTreasure(t);
+        this.discardHiddenTreasure(t, false);
         
         return t;
     }
@@ -138,14 +138,12 @@ public class Player {
     private int howManyVisibleTreasures(TreasureKind tk){
 
         int b = Collections.frequency(this.visibleTreasures.stream().map(a -> a.getType()).collect(Collectors.toList()), tk);
-        System.out.println(b);
         return b;
     }
     
     private boolean isTreasureKindInUse(TreasureKind type) {
         
         boolean c = this.visibleTreasures.stream().map( a -> a.getType() ).collect(Collectors.toList()).contains(type);
-        System.out.println(c);
         return c;
     }
     
@@ -210,9 +208,45 @@ public class Player {
     
     public void discardVisibleTreasure(Treasure t){
         
-        CardDealer cd = CardDealer.getInstance();
+        this.discardVisibleTreasure(t, true);
+    
+    }
+    
+    
+    public void discardHiddenTreasure(Treasure t){
         
-        cd.giveTreasureBack(t);
+        this.discardHiddenTreasure(t, true);
+    }
+    
+    //Needed because not all the times you do discard a treasure it goes to the used deck, for example when stolen.
+    public void discardHiddenTreasure(Treasure t, boolean giveBack){
+        
+        if (giveBack){
+
+            CardDealer cd = CardDealer.getInstance();
+        
+            cd.giveTreasureBack(t);
+        }
+        
+        this.hiddenTreasures.remove(t);
+        
+        if (this.pendingBC != null && !this.pendingBC.isEmpty()) {
+
+            this.pendingBC.substractHiddenTreasure(t);
+
+        }
+
+        this.dieIfNoTreasures();
+    }
+    
+     public void discardVisibleTreasure(Treasure t, boolean giveBack){
+        
+        if (giveBack){
+
+            CardDealer cd = CardDealer.getInstance();
+        
+            cd.giveTreasureBack(t);
+        }
         
         this.visibleTreasures.remove(t);
         
@@ -224,24 +258,6 @@ public class Player {
         
         this.dieIfNoTreasures();
     
-    }
-    
-    
-    public void discardHiddenTreasure(Treasure t){
-        
-        CardDealer cd = CardDealer.getInstance();
-        
-        cd.giveTreasureBack(t);
-        
-        this.hiddenTreasures.remove(t);
-        
-        if (this.pendingBC != null && !this.pendingBC.isEmpty()) {
-
-            this.pendingBC.substractHiddenTreasure(t);
-
-        }
-
-        this.dieIfNoTreasures();
     }
     
     public boolean ValidState(){
@@ -286,7 +302,7 @@ public class Player {
     
     public Treasure stealTreasure(){
         
-        if(!this.canISteal || !this.enemy.canYouGiveMeATreasure()) return null;
+        if(!isAbleToSteal()) return null;
         
         Treasure t = this.enemy.giveMeATreasure();
         this.hiddenTreasures.add(t);
@@ -298,6 +314,10 @@ public class Player {
     
     protected boolean canYouGiveMeATreasure(){
         return !this.hiddenTreasures.isEmpty();
+    }
+    
+    public boolean isAbleToSteal(){
+        return this.canISteal && this.enemy.canYouGiveMeATreasure();
     }
     
     public void haveStolen(){
