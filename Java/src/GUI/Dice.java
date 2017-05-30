@@ -7,10 +7,6 @@ import java.awt.event.KeyEvent;
 import java.util.Random;
 import javax.swing.Timer;
 
-/**
- *
- * @author fvelasco
- */
 public class Dice extends javax.swing.JDialog {
   
   private static Dice instance = null;
@@ -98,7 +94,7 @@ public class Dice extends javax.swing.JDialog {
         jL_diceMouseClicked(evt);
       }
     });
-    
+        
     jL_dice.addKeyListener(new java.awt.event.KeyAdapter() {
         @Override
         public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -110,10 +106,8 @@ public class Dice extends javax.swing.JDialog {
     jL_message1.setText("jLabel1");
 
     jB_OK.setText("OK");
-    jB_OK.addActionListener(new java.awt.event.ActionListener() {
-      public void actionPerformed(java.awt.event.ActionEvent evt) {
+    jB_OK.addActionListener((java.awt.event.ActionEvent evt) -> {
         jB_OKActionPerformed(evt);
-      }
     });
 
     jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -171,7 +165,7 @@ public class Dice extends javax.swing.JDialog {
   
   //custom
   private void jL_diceKeyPressed(java.awt.event.KeyEvent evt){
-      if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+      if (evt.getKeyCode() == KeyEvent.VK_ENTER){
           jL_diceMouseClicked(null);
       }
   }

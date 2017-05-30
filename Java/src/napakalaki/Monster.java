@@ -9,6 +9,11 @@ public class Monster {
     private final BadConsequence badconsequence;
     private final int levelChangeAgainstCultistPlayer;
 
+    /*
+    A monster can be created with a levelchange against cultists or not.
+    Then we have those two constructors.
+    */
+    
     public Monster(String name, int combatLevel, Prize prize, BadConsequence badconsequence) {
         this.name = name;
         this.combatLevel = combatLevel;

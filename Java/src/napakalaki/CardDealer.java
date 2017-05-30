@@ -5,10 +5,6 @@ import java.util.Collections;
 import java.util.Arrays;
 
 
-/**
- *
- * @author ludvins
- */
 public class CardDealer {
     
     private static CardDealer instance = null;

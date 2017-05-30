@@ -81,6 +81,11 @@ public class PlayerNamesCapture extends javax.swing.JDialog {
                 name2ActionPerformed(evt);
             }
         });
+        name2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                name2KeyPressed(evt);
+            }
+        });
 
         name3.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -171,15 +176,15 @@ public class PlayerNamesCapture extends javax.swing.JDialog {
     }//GEN-LAST:event_PlayActionPerformed
 
     private void name1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_name1ActionPerformed
-        // TODO add your handling code here:
+        //Created unintentionally.
     }//GEN-LAST:event_name1ActionPerformed
 
     private void name2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_name2ActionPerformed
-        // TODO add your handling code here:
+        //Created unintentionally.
     }//GEN-LAST:event_name2ActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-
+        //Created unintentionally.
     }//GEN-LAST:event_formKeyPressed
 
     private void name3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_name3KeyPressed
@@ -187,6 +192,12 @@ public class PlayerNamesCapture extends javax.swing.JDialog {
              this.addAndDispose();
          }
     }//GEN-LAST:event_name3KeyPressed
+
+    private void name2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_name2KeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+             this.addAndDispose();
+        }
+    }//GEN-LAST:event_name2KeyPressed
 
         
     public ArrayList<String> getNames() {
@@ -198,7 +209,7 @@ public class PlayerNamesCapture extends javax.swing.JDialog {
         this.names = new ArrayList();
         names.add(name1.getText());
         names.add(name2.getText());
-        names.add(name3.getText());
+         if (!name3.getText().isEmpty()) names.add(name3.getText());
         
         this.dispose();
     }

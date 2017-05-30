@@ -1,6 +1,5 @@
 
 package napakalaki;
-import java.util.Random;
 
 public class CultistPlayer extends Player {
     
@@ -15,21 +14,25 @@ public class CultistPlayer extends Player {
 
     }
     
+    //CombatLevel of a cultist is increased.
     @Override
     public int getCombatLevel(){
         return (int)(1.7 * super.getCombatLevel()) + this.myCultistCard.getGainedBonus()*CultistPlayer.totalCultistsPlayers;
     }
     
+    //A cultist can't convert again.
     @Override
     public boolean shouldConvert(){
         return false;
     }
     
+    //Monster might have a different combat level versus a cultist.
     @Override 
     protected int getOponentLevel(Monster m){
         return m.getCombatLevelAgainstCultistPlayer();
     }
     
+    //When stolen they lose a visible treasure.
     @Override
     protected Treasure giveMeATreasure(){
         

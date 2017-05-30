@@ -16,9 +16,7 @@ import napakalaki.CombatResult;
 public class NapakalakiView extends javax.swing.JFrame {
 
     private Napakalaki napakalakiModel;
-    /**
-     * Creates new form NapakalakiView
-     */
+  
     public NapakalakiView() {
         initComponents();
         this.monsterView1.setVisible(false);
@@ -27,17 +25,17 @@ public class NapakalakiView extends javax.swing.JFrame {
     }
     
     public void setNapakalaki(Napakalaki n){
-        this.napakalakiModel= n;
-        
+        this.napakalakiModel= n;        
         this.playerView2.setNapakalaki(n, this);
-        
         this.monsterView1.setMonster(napakalakiModel.getCurrentMonster());
         this.playerView2.setPlayer(napakalakiModel.getCurrentPlayer());
     }
     
+    
+    //Enables or not the next turn button if it is allowed and has combat. Also does the Set.
     public void check(){
 
-        this.nextTurn.setEnabled(this.napakalakiModel.nextTurnIsAllowed() && !this.combat.isEnabled());
+        this.nextTurn.setEnabled(this.napakalakiModel.nextTurnIsAllowed() && this.playerView2.currentHasCombat);
         
         this.setNapakalaki(napakalakiModel);
         
@@ -100,11 +98,10 @@ public class NapakalakiView extends javax.swing.JFrame {
 
     private void showMonsterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showMonsterActionPerformed
         
-        this.monsterView1.setVisible(true);
-        this.playerView2.toggleMakeVisible();
-        
-        this.showMonster.setEnabled(false);
-        this.combat.setEnabled(true);
+        this.monsterView1.setVisible(true); 
+        this.playerView2.toggleMakeVisible(); //After showing the monster, the player cant make treasures visible.        
+        this.showMonster.setEnabled(false); //Cant show the monster (already shown).
+        this.combat.setEnabled(true); //Can fight now
         
         this.setNapakalaki(napakalakiModel);
         
@@ -113,6 +110,8 @@ public class NapakalakiView extends javax.swing.JFrame {
     private void combatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combatActionPerformed
       
         this.combat.setEnabled(false);
+        
+        this.playerView2.currentHasCombat = true; //After combat player can steal treasure.
 
         CombatResult result = napakalakiModel.developCombat();
 
@@ -131,27 +130,28 @@ public class NapakalakiView extends javax.swing.JFrame {
                 break;
         }
         
-        this.check();  
-        
-        //set Hecho
+        this.check();  //Check does Set
+     
 
     }//GEN-LAST:event_combatActionPerformed
 
     private void nextTurnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextTurnActionPerformed
         
-        this.nextTurn.setEnabled(false);
+        this.nextTurn.setEnabled(false); //Next turn isnt enabled before combat
+        
+        this.playerView2.currentHasCombat = false; //new player hasnt combat yet.
         
         this.napakalakiModel.nextTurn();
         
-        this.monsterView1.setVisible(false);
+        this.monsterView1.setVisible(false); //dont show monster.
         
-        this.showMonster.setEnabled(true);
+        this.showMonster.setEnabled(true); //show button enables.
         
-        this.combatResult.setText("");
+        this.combatResult.setText(""); //Clean Info
 
         this.setNapakalaki(napakalakiModel);
         
-        this.playerView2.toggleMakeVisible();
+        this.playerView2.toggleMakeVisible(); //At the begining of the turn you can make treasures visible.
         
     }//GEN-LAST:event_nextTurnActionPerformed
 

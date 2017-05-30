@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package GUI;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -13,16 +9,13 @@ import napakalaki.Treasure;
 import napakalaki.Napakalaki;
 import napakalaki.CultistPlayer;
 
-/**
- *
- * @author Ludvins
- */
-public class PlayerView extends javax.swing.JPanel {
 
+public class PlayerView extends javax.swing.JPanel {
     
     private Player playerModel;
     private Napakalaki napakalakiModel;
     private NapakalakiView napakalakiView;
+    public boolean currentHasCombat; //Used to enable the steal button.
     
     
     public PlayerView() {
@@ -64,9 +57,7 @@ public class PlayerView extends javax.swing.JPanel {
         cultist.setText("No");
         
     }
-    
-
-    
+        
     public void setPlayer(Player p){
         playerModel = p;
         name.setText(p.getName());
@@ -78,7 +69,7 @@ public class PlayerView extends javax.swing.JPanel {
         this.showCultist();
         this.enemy.setText(this.playerModel.getEnemy().getName());
         
-        this.stealTreasure.setEnabled(this.playerModel.isAbleToSteal());
+        this.stealTreasure.setEnabled(this.playerModel.isAbleToSteal() && this.currentHasCombat);
         
         repaint();
         revalidate();

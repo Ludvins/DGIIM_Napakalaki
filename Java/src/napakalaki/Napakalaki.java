@@ -2,7 +2,6 @@
 package napakalaki;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.function.Function;
 
 
 public class Napakalaki {
@@ -83,7 +82,10 @@ public class Napakalaki {
         
         return combat;
     }   
-    
+    /*
+    These three methods do just loop through an Array and apply another method over the elements.
+    I'll look for a way of make this better.    
+    */
     public void discardVisibleTreasures(ArrayList<Treasure> treasures){
         
         for (Treasure t : treasures){

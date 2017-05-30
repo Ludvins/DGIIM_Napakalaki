@@ -7,10 +7,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import GUI.Dice;
 
-/**
- *
- * @author ludvins
- */
 
 public class Player {
     
@@ -130,12 +126,12 @@ public class Player {
         return this.deleteAndReturnRandomIn(hiddenTreasures);
     }
     
-    protected Treasure deleteAndReturnRandomIn(ArrayList<Treasure> l){
+    protected Treasure deleteAndReturnRandomIn(ArrayList<Treasure> list){
         
         Random rd = new Random();
-        Treasure t = l.get(rd.nextInt() % l.size());
+        Treasure t = list.get(rd.nextInt() % list.size());
         
-        l.remove(t);
+        list.remove(t);
         
         this.dieIfNoTreasures();
         
@@ -156,8 +152,8 @@ public class Player {
     
     private void dieIfNoTreasures() {
         
-        if(this.visibleTreasures.isEmpty() && this.hiddenTreasures.isEmpty()) this.dead = true;
-                
+        if(this.visibleTreasures.isEmpty() && this.hiddenTreasures.isEmpty()) 
+            this.dead = true;    
     }
     
     public boolean isDead() {

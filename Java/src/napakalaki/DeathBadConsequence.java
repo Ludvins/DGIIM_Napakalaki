@@ -14,13 +14,16 @@ public class DeathBadConsequence extends NumericBadConsequence {
     private static final int MAXHIDDENTREASURES = 4; //Max hidden treasures that a player can have.
     private static final int MAXLEVEL = 10; //Max level possible of a player.
     
+    /*
+    Making the badconsequence with the max values possible, forces the player to get out of treasures and levels.
+    Being out of treasures activates DieIfNoTreasures in Player class, so this is equivalent to "die".    
+    */
     public DeathBadConsequence(String text){
         super(text, MAXLEVEL, MAXVISIBLETREASURES, MAXHIDDENTREASURES);
     }
     
-    
     /*
-    Super method does work but with this I throw off the min call.
+    Super method does work but here I don't have to calculate the min.
     */
     @Override
     public NumericBadConsequence adjustToFitTreasureLists(ArrayList<Treasure> v, ArrayList<Treasure> h){
