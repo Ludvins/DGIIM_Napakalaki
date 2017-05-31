@@ -35,26 +35,17 @@ public class PlayerView extends javax.swing.JPanel {
         napakalakiView = view;
     }
     
-    /*
-    These 2 methods are used to Enable or Disable de MakeVisible button following:
-    Can only make treasures visible before showing the monster and after cleaning the bad consequence.
-    */
-    
-    //Forces de makeVisible to disable, used in napakalakiView in ShowMonster
-    public void noMakeVisible(){
-        this.makeVisible.setEnabled(false);
-    }
-    
-    //If player has combat and pendingBC is empty then player can make trasures visible
-    public void toggleMakeVisible(){
-        if(!currentHasCombat) this.makeVisible.setEnabled(true);
-        else if(this.playerModel.getPendingBC() == null || this.playerModel.getPendingBC().isEmpty()) this.makeVisible.setEnabled(true);
-        else this.makeVisible.setEnabled(false);
-        repaint();
+    public void toggleMakeVisible(boolean a){
+        
+        this.makeVisible.setEnabled(a);
     }
     
     public void toggleSteal(boolean a){
         this.stealTreasure.setEnabled(a);
+    }
+    
+    public boolean couldSteal(){
+        return currentHasCombat && this.playerModel.isAbleToSteal();
     }
     
     
@@ -370,6 +361,7 @@ public class PlayerView extends javax.swing.JPanel {
         
         this.playerModel.stealTreasure();
         setPlayer(napakalakiModel.getCurrentPlayer());
+        this.napakalakiView.check();
     }//GEN-LAST:event_stealTreasureActionPerformed
 
     private void discardTreasureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discardTreasureActionPerformed
@@ -382,8 +374,6 @@ public class PlayerView extends javax.swing.JPanel {
             
         this.napakalakiModel.discardHiddenTreasures(selHidden);
         
-        this.toggleMakeVisible();
-        
         this.napakalakiView.check();
 
         setPlayer(napakalakiModel.getCurrentPlayer());
@@ -395,8 +385,6 @@ public class PlayerView extends javax.swing.JPanel {
         this.playerModel.discardAllTreasures();
         
         this.napakalakiView.check();
-        
-        this.toggleMakeVisible();
         
         setPlayer(napakalakiModel.getCurrentPlayer());
     }//GEN-LAST:event_discardAllActionPerformed

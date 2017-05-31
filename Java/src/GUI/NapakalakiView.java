@@ -41,7 +41,8 @@ public class NapakalakiView extends javax.swing.JFrame {
     public void check(){
 
         this.nextTurn.setEnabled(this.napakalakiModel.nextTurnIsAllowed() && this.playerView2.currentHasCombat);
-        this.playerView2.toggleSteal(this.napakalakiModel.nextTurnIsAllowed() && this.playerView2.currentHasCombat);
+        this.playerView2.toggleSteal(this.napakalakiModel.nextTurnIsAllowed() && this.playerView2.couldSteal());
+        if(this.playerView2.currentHasCombat) this.playerView2.toggleMakeVisible(this.napakalakiModel.nextTurnIsAllowed() && this.playerView2.currentHasCombat);
         this.setNapakalaki(napakalakiModel);
         
     }
@@ -104,7 +105,7 @@ public class NapakalakiView extends javax.swing.JFrame {
     private void showMonsterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showMonsterActionPerformed
         
         this.monsterView1.setVisible(true); 
-        this.playerView2.noMakeVisible(); //After showing the monster, the player cant make treasures visible.        
+        this.playerView2.toggleMakeVisible(false);//After showing the monster, the player cant make treasures visible.        
         this.showMonster.setEnabled(false); //Cant show the monster (already shown).
         this.combat.setEnabled(true); //Can fight now
         
@@ -122,8 +123,7 @@ public class NapakalakiView extends javax.swing.JFrame {
 
         switch (result) {
             case WIN:  combatResult.setText("<html>"+ "You have defeated the monster." + "</html>");
-                    this.playerView2.toggleMakeVisible(); //After the combat, the player can make treasures visible again if cleaned the bad consequence
-                break;
+            break;
             case WINGAME:
                 JOptionPane.showMessageDialog(null, "<html>"+ "The Player " + this.napakalakiModel.getCurrentPlayer().getName() + " has reached level 10" + "</html>");
                 System.exit(0);
@@ -135,9 +135,6 @@ public class NapakalakiView extends javax.swing.JFrame {
             default: combatResult.setText("<html>"+ "ERROR." + "</html>");
                 break;
         }
-        
-        
-        this.playerView2.toggleMakeVisible(); //After the combat, the player can make treasures visible again if cleaned the bad consequence
         
         this.check();  //Check does Set
      
