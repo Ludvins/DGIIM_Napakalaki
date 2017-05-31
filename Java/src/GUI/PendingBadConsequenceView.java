@@ -7,7 +7,6 @@ package GUI;
 import javax.swing.BorderFactory;
 import napakalaki.BadConsequence;
 import napakalaki.NumericBadConsequence;
-import napakalaki.DeathBadConsequence;
 import napakalaki.SpecificBadConsequence;
 
 /**
@@ -31,7 +30,7 @@ public class PendingBadConsequenceView extends javax.swing.JPanel {
             jLabel3.setText( (((NumericBadConsequence) b).getnVisibleTreasures()) == 0 ? "" : Integer.toString(((NumericBadConsequence) b).getnVisibleTreasures()) );
             jLabel4.setText( (((NumericBadConsequence) b).getnHiddenTreasures()) == 0 ? "" : Integer.toString(((NumericBadConsequence) b).getnHiddenTreasures()) );
         }
-        if (b instanceof SpecificBadConsequence){
+        else if (b instanceof SpecificBadConsequence){
             jLabel3.setText(((SpecificBadConsequence) b).getSpecificVisibleTreasures().isEmpty() ? "" : "<html>" + ((SpecificBadConsequence) b).getSpecificVisibleTreasures().toString()  + "</html>");
             jLabel4.setText(((SpecificBadConsequence) b).getSpecificHiddenTreasures().isEmpty() ? "" : "<html>" + ((SpecificBadConsequence) b).getSpecificHiddenTreasures().toString()  + "</html>");
         }

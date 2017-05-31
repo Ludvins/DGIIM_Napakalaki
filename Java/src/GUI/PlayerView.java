@@ -9,6 +9,12 @@ import napakalaki.Treasure;
 import napakalaki.Napakalaki;
 import napakalaki.CultistPlayer;
 
+/*
+* Buttons Rules
+*
+* Cant make treasures visible between shoing the monster and the combat (toggleMakeVisible)
+* Cant steal a treasure before the combat (currentHasCombat)
+*/
 
 public class PlayerView extends javax.swing.JPanel {
     
@@ -21,6 +27,7 @@ public class PlayerView extends javax.swing.JPanel {
     public PlayerView() {
         initComponents();
         this.setBorder(BorderFactory.createTitledBorder("Player"));
+        this.stealTreasure.setEnabled(false);
     }
     
     public void setNapakalaki(Napakalaki model, NapakalakiView view){
@@ -28,10 +35,28 @@ public class PlayerView extends javax.swing.JPanel {
         napakalakiView = view;
     }
     
+    /*
+    These 2 methods are used to Enable or Disable de MakeVisible button following:
+    Can only make treasures visible before showing the monster and after cleaning the bad consequence.
+    */
+    
+    //Forces de makeVisible to disable, used in napakalakiView in ShowMonster
+    public void noMakeVisible(){
+        this.makeVisible.setEnabled(false);
+    }
+    
+    //If player has combat and pendingBC is empty then player can make trasures visible
     public void toggleMakeVisible(){
-        this.makeVisible.setEnabled(!this.makeVisible.isEnabled());
+        if(!currentHasCombat) this.makeVisible.setEnabled(true);
+        else if(this.playerModel.getPendingBC() == null || this.playerModel.getPendingBC().isEmpty()) this.makeVisible.setEnabled(true);
+        else this.makeVisible.setEnabled(false);
         repaint();
     }
+    
+    public void toggleSteal(boolean a){
+        this.stealTreasure.setEnabled(a);
+    }
+    
     
     private ArrayList<Treasure> getSelectedTreasures(JPanel aPanel) {
         // Se recorren los tesoros que contiene el panel,
@@ -51,7 +76,7 @@ public class PlayerView extends javax.swing.JPanel {
         if (this.playerModel instanceof CultistPlayer){
             
             cultist.setText("Yes (" + Integer.toString(CultistPlayer.getTotalCultistsPlayers()) + ")");
-            return;
+            return; //break
         }
        
         cultist.setText("No");
@@ -68,9 +93,7 @@ public class PlayerView extends javax.swing.JPanel {
         this.pendingBadConsequenceView1.setBadConsequence(p.getPendingBC());       
         this.showCultist();
         this.enemy.setText(this.playerModel.getEnemy().getName());
-        
-        this.stealTreasure.setEnabled(this.playerModel.isAbleToSteal() && this.currentHasCombat);
-        
+               
         repaint();
         revalidate();
 
@@ -359,6 +382,8 @@ public class PlayerView extends javax.swing.JPanel {
             
         this.napakalakiModel.discardHiddenTreasures(selHidden);
         
+        this.toggleMakeVisible();
+        
         this.napakalakiView.check();
 
         setPlayer(napakalakiModel.getCurrentPlayer());
@@ -370,6 +395,8 @@ public class PlayerView extends javax.swing.JPanel {
         this.playerModel.discardAllTreasures();
         
         this.napakalakiView.check();
+        
+        this.toggleMakeVisible();
         
         setPlayer(napakalakiModel.getCurrentPlayer());
     }//GEN-LAST:event_discardAllActionPerformed

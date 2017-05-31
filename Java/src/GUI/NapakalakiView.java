@@ -10,8 +10,11 @@ import napakalaki.Napakalaki;
 import napakalaki.CombatResult;
 
 /**
+ * Buttons Rules
  *
- * @author Ludvins
+ * Cant pass turn if you are not allowed and you havent combat. (currentHasCombat in PlayerView)
+ * Cant combat before showing the monster.
+ * 
  */
 public class NapakalakiView extends javax.swing.JFrame {
 
@@ -29,6 +32,8 @@ public class NapakalakiView extends javax.swing.JFrame {
         this.playerView2.setNapakalaki(n, this);
         this.monsterView1.setMonster(napakalakiModel.getCurrentMonster());
         this.playerView2.setPlayer(napakalakiModel.getCurrentPlayer());
+        
+        this.repaint();  //Not needed
     }
     
     
@@ -36,7 +41,7 @@ public class NapakalakiView extends javax.swing.JFrame {
     public void check(){
 
         this.nextTurn.setEnabled(this.napakalakiModel.nextTurnIsAllowed() && this.playerView2.currentHasCombat);
-        
+        this.playerView2.toggleSteal(this.napakalakiModel.nextTurnIsAllowed() && this.playerView2.currentHasCombat);
         this.setNapakalaki(napakalakiModel);
         
     }
@@ -99,7 +104,7 @@ public class NapakalakiView extends javax.swing.JFrame {
     private void showMonsterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showMonsterActionPerformed
         
         this.monsterView1.setVisible(true); 
-        this.playerView2.toggleMakeVisible(); //After showing the monster, the player cant make treasures visible.        
+        this.playerView2.noMakeVisible(); //After showing the monster, the player cant make treasures visible.        
         this.showMonster.setEnabled(false); //Cant show the monster (already shown).
         this.combat.setEnabled(true); //Can fight now
         
@@ -112,23 +117,27 @@ public class NapakalakiView extends javax.swing.JFrame {
         this.combat.setEnabled(false);
         
         this.playerView2.currentHasCombat = true; //After combat player can steal treasure.
-
+        
         CombatResult result = napakalakiModel.developCombat();
 
         switch (result) {
-            case WIN:  combatResult.setText("<html>"+ "Has derrotado al monstruo." + "</html>");
+            case WIN:  combatResult.setText("<html>"+ "You have defeated the monster." + "</html>");
+                    this.playerView2.toggleMakeVisible(); //After the combat, the player can make treasures visible again if cleaned the bad consequence
                 break;
             case WINGAME:
-                JOptionPane.showMessageDialog(null, "<html>"+ "El jugador " + this.napakalakiModel.getCurrentPlayer().getName() + " ha llegado al nivel 10" + "</html>");
+                JOptionPane.showMessageDialog(null, "<html>"+ "The Player " + this.napakalakiModel.getCurrentPlayer().getName() + " has reached level 10" + "</html>");
                 System.exit(0);
             break;
-            case LOSE:  combatResult.setText("<html>"+ "Has sido derrotado. Ahora se te aplicará el mal rollo del monstruo." + "</html>");
+            case LOSE:  combatResult.setText("<html>"+ "You have been defeated. You'll be applied the bad consequence." + "</html>");
                 break;
-            case LOSEANDCONVERT: combatResult.setText("<html>"+ "Has sido derrotado. ¡Ahora eres sectario!" + "</html>"); 
+            case LOSEANDCONVERT: combatResult.setText("<html>"+ "You have been defeated. ¡Now you are a cultist!" + "</html>"); 
                 break;
-            default: combatResult.setText("<html>"+ "Error en el combate." + "</html>");
+            default: combatResult.setText("<html>"+ "ERROR." + "</html>");
                 break;
         }
+        
+        
+        this.playerView2.toggleMakeVisible(); //After the combat, the player can make treasures visible again if cleaned the bad consequence
         
         this.check();  //Check does Set
      
@@ -149,9 +158,7 @@ public class NapakalakiView extends javax.swing.JFrame {
         
         this.combatResult.setText(""); //Clean Info
 
-        this.setNapakalaki(napakalakiModel);
-        
-        this.playerView2.toggleMakeVisible(); //At the begining of the turn you can make treasures visible.
+        this.check();
         
     }//GEN-LAST:event_nextTurnActionPerformed
 

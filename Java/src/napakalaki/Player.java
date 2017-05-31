@@ -50,7 +50,7 @@ public class Player {
     }
     
     public boolean canISteal(){
-        return canISteal;
+        return canISteal && (this.pendingBC == null || this.pendingBC.isEmpty());
     }
     
     public int getCombatLevel() {
