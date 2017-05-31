@@ -37,12 +37,18 @@ public class NapakalakiView extends javax.swing.JFrame {
     }
     
     
-    //Enables or not the next turn button if it is allowed and has combat. Also does the Set.
+    //Enables or not nextTurn, Steal and MakeVisible buttons. Also does the Set.
     public void check(){
 
+        //Can pass turn if its allowed and has combat
         this.nextTurn.setEnabled(this.napakalakiModel.nextTurnIsAllowed() && this.playerView2.currentHasCombat);
+        
+        // can steal if next turn is allowed (clean BC), has combat and its able to steal.
         this.playerView2.toggleSteal(this.napakalakiModel.nextTurnIsAllowed() && this.playerView2.couldSteal());
-        if(this.playerView2.currentHasCombat) this.playerView2.toggleMakeVisible(this.napakalakiModel.nextTurnIsAllowed() && this.playerView2.currentHasCombat);
+        
+        //if player has combat change the makeVisible if possible.
+        if(this.playerView2.currentHasCombat) this.playerView2.toggleMakeVisible(this.napakalakiModel.nextTurnIsAllowed());
+       
         this.setNapakalaki(napakalakiModel);
         
     }

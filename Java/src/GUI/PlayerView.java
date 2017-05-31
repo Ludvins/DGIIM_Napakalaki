@@ -21,7 +21,7 @@ public class PlayerView extends javax.swing.JPanel {
     private Player playerModel;
     private Napakalaki napakalakiModel;
     private NapakalakiView napakalakiView;
-    public boolean currentHasCombat; //Used to enable the steal button.
+    public boolean currentHasCombat; //Used to know if the current player has done de combat or not (usefull for the Steal and makeVisible buttons)
     
     
     public PlayerView() {
@@ -36,7 +36,6 @@ public class PlayerView extends javax.swing.JPanel {
     }
     
     public void toggleMakeVisible(boolean a){
-        
         this.makeVisible.setEnabled(a);
     }
     
