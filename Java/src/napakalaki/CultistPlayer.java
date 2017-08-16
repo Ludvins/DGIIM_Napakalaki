@@ -46,7 +46,7 @@ public class CultistPlayer extends Player {
     
     @Override
     public String toString(){
-        return name + " (Sectario) " + " Nivel del jugador: " + level + " Nivel de combate: " + getCombatLevel() + " Enemigo: " + enemy.getName();
+        return super.toString() + "(Sectario)";
     }
     
     public static int getTotalCultistsPlayers(){

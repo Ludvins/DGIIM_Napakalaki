@@ -2,10 +2,7 @@
 
 package napakalaki;
 import java.util.ArrayList;
-/**
- *
- * @author ludvins
- */
+
 public abstract class BadConsequence {
     protected String text;
     protected int levels;
@@ -21,6 +18,11 @@ public abstract class BadConsequence {
 
     public int getLevels() {
         return levels;
+    }
+    
+    @Override
+    public String toString(){
+        return "\n\tText: " + text + "\n\tLevels: " + levels;
     }
     
     public abstract boolean isEmpty () ;          

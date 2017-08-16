@@ -8,10 +8,6 @@ package napakalaki;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
-/**
- *
- * @author Ludvins
- */
 public class SpecificBadConsequence extends BadConsequence {
     
     private final ArrayList<TreasureKind> specificHiddenTreasures;
@@ -54,15 +50,32 @@ public class SpecificBadConsequence extends BadConsequence {
         ArrayList <TreasureKind> vt = v.stream().map(a -> a.getType()).collect(Collectors.toCollection(ArrayList::new));
         ArrayList <TreasureKind> ht = h.stream().map(a -> a.getType()).collect(Collectors.toCollection(ArrayList::new));
 
-        vt.retainAll(this.specificVisibleTreasures);
-        ht.retainAll(this.specificHiddenTreasures);
+        ArrayList <TreasureKind> vcopy = new ArrayList();
+        ArrayList <TreasureKind> hcopy = new ArrayList();
+        
+        for (TreasureKind t: this.specificVisibleTreasures){
+            
+            if (vt.contains(t)){
+                vcopy.add(t);
+                vt.remove(t);                
+            }
+        }
+        
+                
+        for (TreasureKind t: this.specificHiddenTreasures){
+            
+            if (ht.contains(t)){
+                hcopy.add(t);
+                ht.remove(t);                
+            }
+        }
 
-        return new SpecificBadConsequence(this.text, 0, vt, ht);
+        return new SpecificBadConsequence(this.text, 0, vcopy, hcopy);
     }
     
     @Override
     public String toString() {
-        return "\n\tText: " + text + "\n\tLevels: " + levels + "\n\tSpecificHiddenTreasures: " + specificHiddenTreasures + "\n\tSpecificVisibleTreasures: " + specificVisibleTreasures;
+        return super.toString() + "\n\tSpecificHiddenTreasures: " + specificHiddenTreasures + "\n\tSpecificVisibleTreasures: " + specificVisibleTreasures;
     }
     
     
